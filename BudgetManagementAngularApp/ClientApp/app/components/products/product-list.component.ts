@@ -12,7 +12,7 @@ import { ProductService } from '../data/product.service';
 
 export class ProductListComponent implements OnInit {
   products: IProduct[] = [];
-  errorMessage: string;
+  errorMessage: string = "";
 
   constructor(private route: ActivatedRoute,
             private router: Router,
@@ -24,14 +24,18 @@ export class ProductListComponent implements OnInit {
   }
 
   ngOnInit() {
-    let id = +this.route.snapshot.paramMap.get('id');
 
-    this.productService.getProductsByBillID(id).subscribe(
-      products => {
-        this.products = products;
-      },
-      error => this.errorMessage = <any>error
-    );
+      if (this.route.snapshot.paramMap.get('id') != null) {
+
+          var id = <number>+this.route.snapshot.paramMap.get('id');
+
+          this.productService.getProductsByBillID(id).subscribe(
+              products => {
+                  this.products = products;
+              },
+              error => this.errorMessage = <any>error
+          );
+      }
   }
 
 }

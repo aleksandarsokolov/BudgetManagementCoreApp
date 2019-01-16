@@ -7,7 +7,7 @@ import { Component, OnInit, OnChanges, Input, Output, EventEmitter } from '@angu
 })
 export class ConvertToIconComponent implements OnInit {
   icons: string[] = ["fa-star"];
-  @Input() types: string[];
+  @Input() types!: string[];
 
   constructor() { }
 

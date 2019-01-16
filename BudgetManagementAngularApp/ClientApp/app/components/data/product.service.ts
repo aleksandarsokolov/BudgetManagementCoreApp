@@ -26,7 +26,7 @@ export class ProductService {
     return this.http.get<IProduct[]>(this.productUrl).pipe(
         map((data:any) => {
             const results: IProduct[] = [];
-            data.map(item => {
+            data.map((item: any) => {
                 if(item.billId == id){
                     results.push(item);
                 }

@@ -21,7 +21,7 @@ export class BillListComponent implements OnInit {
   pageTitle: string = 'Bills List';
   showVerify: boolean = false;
   showAddNew: boolean = true;
-  errorMessage: string;
+  errorMessage: string = "";
   bills: IBill[] = [];
   totals: Totals[] = [];
   totalCount: number = 0;
@@ -31,13 +31,13 @@ export class BillListComponent implements OnInit {
   billFormGroup: FormGroup;
 
   optionsCompanies: string[] = [];
-  filteredCompanies: Observable<string[]>;
+  filteredCompanies!: Observable<string[]>;
 
   //MatTable info
-  dataSource;
-  selection;
+  dataSource = new MatTableDataSource<IBill>([]);
+  selection: any;
   displayColumns = [ 'verified', 'date', 'memo', 'company', 'location', 'type', 'totalProducts', 'totalPrice', 'openBill'];
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatSort) sort!: MatSort;
 
   constructor(private route: ActivatedRoute,
     private router: Router,

@@ -1,0 +1,222 @@
+[
+    {
+        "productId": 1,
+        "billId": 1,
+        "name": "Bonboni",
+        "brand": "M&M",
+        "amount": "4",
+        "price": 1.04,
+        "currency": "USD",
+        "planned": true,
+        "type": "Food"
+    },
+    {
+        "productId": 2,
+        "billId": 1,
+        "name": "Brasno",
+        "brand": "",
+        "amount": "10 lbs",
+        "price": 3.49,
+        "currency": "USD",
+        "planned": true,
+        "type": "Food"
+    },
+    {
+        "productId": 3,
+        "billId": 1,
+        "name": "Vlazni maramici za cistenje",
+        "brand": "Swiffer",
+        "amount": "30",
+        "price": 7.49,
+        "currency": "USD",
+        "planned": true,
+        "type": "Higiene"
+    },
+    {
+        "productId": 4,
+        "billId": 1,
+        "name": "Mleko",
+        "brand": "Dairyland",
+        "amount": "x2",
+        "price": 5.99,
+        "currency": "USD",
+        "planned": true,
+        "type": "Food"
+    },
+    {
+        "productId": 5,
+        "billId": 1,
+        "name": "Selotejp",
+        "brand": "",
+        "amount": "1",
+        "price": 3.99,
+        "currency": "USD",
+        "planned": true,
+        "type": "Household"
+    },
+    {
+        "productId": 6,
+        "billId": 2,
+        "name": "Kutija za skladiranje",
+        "brand": "",
+        "amount": "1",
+        "price": 7.91,
+        "currency": "USD",
+        "planned": true,
+        "type": "Household"
+    },
+    {
+        "productId": 7,
+        "billId": 2,
+        "name": "Solenicinja",
+        "brand": "",
+        "amount": "6",
+        "price": 11.56,
+        "currency": "USD",
+        "planned": true,
+        "type": "Household"
+    },
+    {
+        "productId": 8,
+        "billId": 2,
+        "name": "Prodolzen Kabel",
+        "brand": "",
+        "amount": "1",
+        "price": 8.99,
+        "currency": "USD",
+        "planned": true,
+        "type": "Household"
+    },
+    {
+        "productId": 9,
+        "billId": 3,
+        "name": "Kapa",
+        "brand": "Hershell & Co.",
+        "amount": "1",
+        "price": 12.39,
+        "currency": "USD",
+        "planned": true,
+        "type": "Clothes"
+    },
+    {
+        "productId": 10,
+        "billId": 3,
+        "name": "Majca",
+        "brand": "Forever 21",
+        "amount": "1",
+        "price": 3.99,
+        "currency": "USD",
+        "planned": true,
+        "type": "Clothes"
+    },
+    {
+        "productId": 11,
+        "billId": 4,
+        "name": "Smoothie",
+        "brand": "Boba",
+        "amount": "1",
+        "price": 4.5,
+        "currency": "USD",
+        "planned": true,
+        "type": "Going Out"
+    },
+    {
+        "productId": 12,
+        "billId": 5,
+        "name": "Machiato",
+        "brand": "French Press",
+        "amount": "1",
+        "price": 3.87,
+        "currency": "USD",
+        "planned": true,
+        "type": "Going Out"
+    },
+    {
+        "productId": 13,
+        "billId": 5,
+        "name": "Cappucino",
+        "brand": "French Press",
+        "amount": "1",
+        "price": 3.14,
+        "currency": "USD",
+        "planned": true,
+        "type": "Going Out"
+    },
+    {
+        "productId": 14,
+        "billId": 6,
+        "name": "Chetka za farbanje",
+        "brand": "",
+        "amount": "1",
+        "price": 11.97,
+        "currency": "USD",
+        "planned": true,
+        "type": "Household"
+    },
+    {
+        "productId": 15,
+        "billId": 6,
+        "name": "Boja",
+        "brand": "Bersch",
+        "amount": "16 oz",
+        "price": 20.16,
+        "currency": "USD",
+        "planned": true,
+        "type": "Household"
+    },
+    {
+        "productId": 16,
+        "billId": 6,
+        "name": "Hartija za shmirglanje",
+        "brand": "",
+        "amount": "6 sheets",
+        "price": 4.27,
+        "currency": "USD",
+        "planned": true,
+        "type": "Household"
+    },
+    {
+        "productId": 17,
+        "billId": 6,
+        "name": "Drzach za shmirglanje",
+        "brand": "",
+        "amount": "1",
+        "price": 5.47,
+        "currency": "USD",
+        "planned": true,
+        "type": "Household"
+    },
+    {
+        "productId": 18,
+        "billId": 7,
+        "name": "Rakavici",
+        "brand": "",
+        "amount": "4",
+        "price": 3.99,
+        "currency": "USD",
+        "planned": true,
+        "type": "Higiene"
+    },
+    {
+        "productId": 19,
+        "billId": 7,
+        "name": "Pasta za zabi",
+        "brand": "Crest",
+        "amount": "1",
+        "price": 5,
+        "currency": "USD",
+        "planned": true,
+        "type": "Higiene"
+    },
+    {
+        "productId": 20,
+        "billId": 7,
+        "name": "Superfolijant",
+        "brand": "",
+        "amount": "1",
+        "price": 59,
+        "currency": "USD",
+        "planned": true,
+        "type": "Higiene"
+    }
+]

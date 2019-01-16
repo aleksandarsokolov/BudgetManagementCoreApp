@@ -19,22 +19,22 @@ export interface IBill {
 
 export class Bill {
 
-    public billId: number;
-    public date: Date;
-    public memo: string;
-    public company: string;
-    public location: string;
-    public city: string;
-    public country: string;
-    public totalProducts: number;
-    public totalPrice: number;
-    public currency: string;
-    public utcTimeStamp: string;
-    public userId: number;
-    public lat: number;
-    public long: number;
-    public verified: boolean;
-    public products: any[]; 
+    public billId: number = 0;
+    public date: Date = new Date();
+    public memo: string = "";
+    public company: string = "";
+    public location: string = "";
+    public city: string = "";
+    public country: string = "";
+    public totalProducts: number = 0;
+    public totalPrice: number = 0;
+    public currency: string = "";
+    public utcTimeStamp: string = "";
+    public userId: number = 0;
+    public lat: number = 0;
+    public long: number = 0;
+    public verified: boolean = false;
+    public products!: any[]; 
 
     // constructor(
     //     public billId: number,

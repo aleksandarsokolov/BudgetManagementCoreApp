@@ -1,4 +1,4 @@
 export class Totals {
-    amount: number;
-    currency: string;
+    amount: number = 0;
+    currency: string = "";
 }

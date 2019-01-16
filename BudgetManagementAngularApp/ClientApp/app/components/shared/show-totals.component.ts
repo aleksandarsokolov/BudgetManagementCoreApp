@@ -9,7 +9,7 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class ShowTotalsComponent implements OnInit {
   priceTotals: Totals[] = [];
-  @Input() totals: Totals[];
+  @Input() totals!: Totals[];
   constructor() { }
 
   ngOnInit() {
