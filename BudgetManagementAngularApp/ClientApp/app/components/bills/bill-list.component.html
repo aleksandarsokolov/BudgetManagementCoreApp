@@ -1,0 +1,206 @@
+<form #form="ngForm" >  
+    <mat-toolbar color="primary">      
+        <mat-toolbar-row>
+            <span><i class="fa fa-shopping-cart" aria-hidden="true"></i>&nbsp;Bills</span>
+            <span class="example-spacer"></span>
+            
+            <mat-slide-toggle (click)="showVerifyCheckboxes()">Verify</mat-slide-toggle>
+        </mat-toolbar-row>
+    </mat-toolbar>
+    
+
+        <!-- Add new bill -->
+        <mat-toolbar fxFlexFill fxLayout="row wrap" [style.visibility]="showAddNew ? 'visible' : 'hidden'">
+
+                <!-- Date -->
+                <mat-form-field fxLayout="column" fxFlex.gt-xs="25" fxFlex.gt-sm="20" fxFlex.gt-md="10" fxFlex.gt-lg="10" fxFlex.gt-xl="10"  class="example-datepicker-form">
+                        <input matInput [matDatepicker]="pickerDate" placeholder="Date" [(ngModel)]="model.date" name="date">
+                        <mat-datepicker-toggle matSuffix [for]="pickerDate"></mat-datepicker-toggle>
+                        <mat-datepicker touchUi #pickerDate></mat-datepicker>
+                </mat-form-field>
+                
+                <!-- Memo -->
+                <mat-form-field fxLayout="column" fxFlex.gt-xs="45" fxFlex.gt-sm="65" fxFlex.gt-md="30" fxFlex.gt-lg="30" fxFlex.gt-xl="30" class="example-form-field">
+                    <input matInput type="text" placeholder="Memo" [(ngModel)]="model.memo" name="memo">
+                    <button mat-button *ngIf="model.memo" matSuffix mat-icon-button aria-label="Clear" (click)="model.memo=''">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </mat-form-field>
+    
+                <!-- Company -->
+                <div fxLayout="column" fxFlexFill fxFlex.gt-xs="45" fxFlex.gt-sm="40" fxFlex.gt-md="20" fxFlex.gt-lg="20" fxFlex.gt-xl="20" >
+                    
+                    <div [formGroup]="billFormGroup" class="example-form-field">
+                        <mat-form-field >
+                            <input type="text" placeholder="Company" formControlName="company" [(ngModel)]="model.company" 
+                            aria-label="Company" matInput  [matAutocomplete]="auto"  >
+                            <mat-autocomplete #auto="matAutocomplete">
+                            <mat-option *ngFor="let comp of filteredCompanies | async" [value]="comp">
+                                {{ comp }}
+                            </mat-option>
+                            </mat-autocomplete>
+                            <button mat-button *ngIf="model.company" matSuffix mat-icon-button aria-label="Clear" (click)="model.company=''">
+                                <mat-icon>close</mat-icon>
+                            </button>
+                        </mat-form-field>
+                    </div>
+                </div>
+            
+                <!-- Location -->
+                <mat-form-field fxLayout="column" fxFlex.gt-xs="45" fxFlex.gt-sm="45" fxFlex.gt-md="25" fxFlex.gt-lg="25" fxFlex.gt-xl="20" class="example-form-field">
+                    <input matInput type="text" placeholder="Location" [(ngModel)]="model.location" name="location">
+                    <button mat-button *ngIf="model.location" matSuffix mat-icon-button aria-label="Clear" (click)="model.location=''">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </mat-form-field>
+    
+                <!-- Save Button -->
+                <div  fxLayout="column" fxFlex.gt-xs="45" fxFlex.gt-sm="10" fxFlex.gt-md="10" fxFlex.gt-lg="10" fxFlex.gt-xl="10">
+                        <button mat-raised-button color="primary">Add</button>
+                </div>
+            
+            </mat-toolbar>
+    
+    <mat-toolbar  fxLayoutGap fxLayout="row wrap" >
+        <mat-form-field  fxLayout="column" fxFlex="30" class="example-datepicker-form">
+            <input matInput [matDatepicker]="pickerStart" placeholder="Start date">
+            <mat-datepicker-toggle matSuffix [for]="pickerStart"></mat-datepicker-toggle>
+            <mat-datepicker touchUi #pickerStart></mat-datepicker>
+        </mat-form-field>
+        <!-- <mat-divider [inset]="true"></mat-divider> -->
+        <mat-form-field  fxLayout="column" fxFlex="30" class="example-datepicker-form">
+                <input matInput [matDatepicker]="pickerEnd" placeholder="End date">
+                <mat-datepicker-toggle matSuffix [for]="pickerEnd"></mat-datepicker-toggle>
+                <mat-datepicker touchUi #pickerEnd></mat-datepicker>
+        </mat-form-field>
+        <!-- <span class="example-spacer"></span> -->
+        <mat-form-field  fxLayout="column" fxFlex="30" class="example-form">
+                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+    </mat-toolbar>
+        
+
+
+     
+
+        <mat-card fxFlexFill fxLayout="row wrap" style="padding:0px;">              
+            <table mat-table fxFlexFill [dataSource]="dataSource" matSort class="mat-elevation-z2">
+                <!-- Verify Column -->
+                <ng-container matColumnDef="verify-chk">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <mat-checkbox (change)="$event ? masterToggle() : null"
+                                        [checked]="selection.hasValue() && isAllSelected()"
+                                        [indeterminate]="selection.hasValue() && !isAllSelected()">
+                        </mat-checkbox>
+                    </th>
+                    <td mat-cell *matCellDef="let bill">
+                        <mat-checkbox [attr.id]='bill.billid'
+                                        (click)="$event.stopPropagation()"
+                                        (change)="$event ? selection.toggle(bill) : null"
+                                        [checked]="selection.isSelected(bill)">
+                        </mat-checkbox>
+                    </td>
+                    <td mat-footer-cell *matFooterCellDef>
+                    </td> 
+                </ng-container>
+
+                <!-- Verified Icon Column -->
+                <ng-container matColumnDef="verified" >
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        <mat-icon aria-hidden="true">shopping_cart</mat-icon>
+                    </th>
+                    <td mat-cell *matCellDef="let bill">
+                        <mat-icon [style.color]='GetColor(bill.verified)' aria-hidden="true">shopping_cart</mat-icon> 
+                    </td>
+                    <td mat-footer-cell *matFooterCellDef>  </td>
+                </ng-container>
+                
+                <!-- Date Column -->
+                <ng-container matColumnDef="date">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Date </th>
+                    <td mat-cell *matCellDef="let bill"> {{ bill.date | date:'MM/dd/yyyy'}} </td>
+                    <td mat-footer-cell *matFooterCellDef>  </td>
+                </ng-container>
+                
+                <!-- Memo Column -->
+                <ng-container matColumnDef="memo">
+                    <th fxShow="true" fxHide.lt-md="true" mat-header-cell *matHeaderCellDef mat-sort-header> Memo </th>
+                    <td fxShow="true" fxHide.lt-md="true" mat-cell *matCellDef="let bill"> {{bill.memo}} </td>
+                    <td fxShow="true" fxHide.lt-md="true" mat-footer-cell *matFooterCellDef>  </td>
+                </ng-container>
+                
+                <!-- Company Column -->
+                <ng-container matColumnDef="company">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Company </th>
+                    <td mat-cell *matCellDef="let bill"> {{ bill.company }} </td>
+                    <td mat-footer-cell *matFooterCellDef>  </td>
+                </ng-container>
+                
+                <!-- Location Column -->
+                <ng-container matColumnDef="location">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Location </th>
+                    <td mat-cell *matCellDef="let bill"> {{ bill.city }}, {{ bill.country }} </td>
+                    <td mat-footer-cell *matFooterCellDef>  </td>
+                </ng-container>
+                
+                <!-- Type Column -->
+                <ng-container matColumnDef="type">
+                    <th fxShow="true" fxHide.lt-sm="true" mat-header-cell *matHeaderCellDef mat-sort-header> Type </th>
+                    <td fxShow="true" fxHide.lt-sm="true" mat-cell *matCellDef="let bill">
+                        <pm-icons [types]='bill.city'></pm-icons>
+                    </td>
+                    <td fxShow="true" fxHide.lt-sm="true" mat-footer-cell *matFooterCellDef> Total: </td>
+                </ng-container>
+                
+                <!-- Count Column -->
+                <ng-container matColumnDef="totalProducts">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Count </th>
+                    <td mat-cell *matCellDef="let bill">{{ bill.totalProducts }}</td>
+                    <td mat-footer-cell *matFooterCellDef> {{ totalCount }} </td>
+                </ng-container>
+                
+                <!-- Amount Column -->
+                <ng-container matColumnDef="totalPrice">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Amount </th>
+                    <td mat-cell *matCellDef="let bill">{{ bill.totalPrice | currency:bill.currency:'symbol':'1.2-2' }}</td>
+                    <td mat-footer-cell *matFooterCellDef>
+                        <app-show-totals [totals]="totals"></app-show-totals>
+                    </td>
+                </ng-container>
+
+                <!-- Open -->
+                <ng-container matColumnDef="openBill">
+                        <th fxShow="true" fxHide.lt-md="true" mat-header-cell *matHeaderCellDef></th>
+                        <td fxShow="true" fxHide.lt-md="true" mat-cell *matCellDef="let bill">
+                            <a [routerLink]="['/bills', bill.billId]">
+                                <mat-icon aria-hidden="true">open_in_new</mat-icon>
+                            </a>
+                        </td>
+                        <td fxShow="true" fxHide.lt-md="true" mat-footer-cell *matFooterCellDef></td>
+                    </ng-container>
+                
+                <tr mat-header-row *matHeaderRowDef="getDisplayedColumns()"></tr>
+                <tr mat-row class="ripple" *matRowDef="let row; columns: getDisplayedColumns();" 
+                    (click)="selection.toggle(row)"></tr>
+                <tr mat-footer-row *matFooterRowDef="getDisplayedColumns()"></tr>
+            </table>
+        </mat-card>
+        <mat-toolbar class="mat-elevation-z8">
+                
+            <div class="button-row">
+                <button mat-icon-button color="primary" [disabled]='!showVerify'
+                    matTooltip="Verify" matTooltipPosition='below'>
+                    <mat-icon aria-label="Verify button">check_circle</mat-icon>
+                </button>
+                <button mat-icon-button color="primary" [disabled]='!showVerify' 
+                    matTooltip="Delete" matTooltipPosition='below'>
+                    <mat-icon aria-label="Delete button">delete</mat-icon>
+                </button>
+            </div>
+        </mat-toolbar>
+</form>
+
+Model: {{ model | json }}
+<br>
+Angular: {{ form.value | json }}

@@ -1,0 +1,23 @@
+[
+{ "id":1, "name":"Beauty" }, 
+{ "id":2, "name":"Clothes" }, 
+{ "id":3, "name":"Deposit" }, 
+{ "id":4, "name":"Electronics" }, 
+{ "id":5, "name":"Education" }, 
+{ "id":6, "name":"Food" }, 
+{ "id":7, "name":"Gift" }, 
+{ "id":8, "name":"Going Out" }, 
+{ "id":9, "name":"Health" }, 
+{ "id":10, "name":"Higiene" }, 
+{ "id":11, "name":"Household" }, 
+{ "id":12, "name":"Housing" }, 
+{ "id":13, "name":"Lending" }, 
+{ "id":14, "name":"Other" }, 
+{ "id":15, "name":"Ticket" }, 
+{ "id":16, "name":"Tax" },
+{ "id":17, "name":"Travel" }, 
+{ "id":18, "name":"Utilities" },
+{ "id":19, "name":"Car" },
+{ "id":20, "name":"Gas" },
+{ "id":21, "name":"Repair Service" }
+]

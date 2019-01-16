@@ -6,4 +6,5 @@ import { Component } from '@angular/core';
     styleUrls: ['./navmenu.component.css']
 })
 export class NavMenuComponent {
+  pageTitle: string = 'Personal Budget Management';
 }
