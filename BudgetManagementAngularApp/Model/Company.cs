@@ -10,6 +10,8 @@ namespace BudgetManagementAngularApp.Model
     {
         [Column("companyid")]
         public int Companyid { get; set; }
+        [Column("locationid")]
+        public int Locationid { get; set; }
         [Column("name")]
         [StringLength(100)]
         public string Name { get; set; }

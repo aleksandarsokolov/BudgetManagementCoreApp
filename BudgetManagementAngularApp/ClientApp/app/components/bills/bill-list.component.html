@@ -14,7 +14,7 @@
 
                 <!-- Date -->
                 <mat-form-field fxLayout="column" fxFlex.gt-xs="25" fxFlex.gt-sm="20" fxFlex.gt-md="10" fxFlex.gt-lg="10" fxFlex.gt-xl="10"  class="example-datepicker-form">
-                        <input matInput [matDatepicker]="pickerDate" placeholder="Date" [(ngModel)]="model.date" name="date">
+                        <input matInput [matDatepicker]="pickerDate" placeholder="Date" [(ngModel)]="model.Date" name="date">
                         <mat-datepicker-toggle matSuffix [for]="pickerDate"></mat-datepicker-toggle>
                         <mat-datepicker touchUi #pickerDate></mat-datepicker>
                 </mat-form-field>
@@ -22,7 +22,7 @@
                 <!-- Memo -->
                 <mat-form-field fxLayout="column" fxFlex.gt-xs="45" fxFlex.gt-sm="65" fxFlex.gt-md="30" fxFlex.gt-lg="30" fxFlex.gt-xl="30" class="example-form-field">
                     <input matInput type="text" placeholder="Memo" [(ngModel)]="model.memo" name="memo">
-                    <button mat-button *ngIf="model.memo" matSuffix mat-icon-button aria-label="Clear" (click)="model.memo=''">
+                    <button mat-button *ngIf="model.memo" matSuffix mat-icon-button aria-label="Clear" (click)="model.Memo=''">
                         <mat-icon>close</mat-icon>
                     </button>
                 </mat-form-field>
@@ -32,14 +32,14 @@
                     
                     <div [formGroup]="billFormGroup" class="example-form-field">
                         <mat-form-field >
-                            <input type="text" placeholder="Company" formControlName="company" [(ngModel)]="model.company" 
+                            <input type="text" placeholder="Company" formControlName="company" [(ngModel)]="model.Company.CompanyName" 
                             aria-label="Company" matInput  [matAutocomplete]="auto"  >
                             <mat-autocomplete #auto="matAutocomplete">
                             <mat-option *ngFor="let comp of filteredCompanies | async" [value]="comp">
                                 {{ comp }}
                             </mat-option>
                             </mat-autocomplete>
-                            <button mat-button *ngIf="model.company" matSuffix mat-icon-button aria-label="Clear" (click)="model.company=''">
+                            <button mat-button *ngIf="model.company" matSuffix mat-icon-button aria-label="Clear" (click)="model.Company.CompanyName=''">
                                 <mat-icon>close</mat-icon>
                             </button>
                         </mat-form-field>
@@ -48,15 +48,15 @@
             
                 <!-- Location -->
                 <mat-form-field fxLayout="column" fxFlex.gt-xs="45" fxFlex.gt-sm="45" fxFlex.gt-md="25" fxFlex.gt-lg="25" fxFlex.gt-xl="20" class="example-form-field">
-                    <input matInput type="text" placeholder="Location" [(ngModel)]="model.location" name="location">
-                    <button mat-button *ngIf="model.location" matSuffix mat-icon-button aria-label="Clear" (click)="model.location=''">
+                    <input matInput type="text" placeholder="Location" [(ngModel)]="model.Company.Location.City" name="location">
+                    <button mat-button *ngIf="model.location" matSuffix mat-icon-button aria-label="Clear" (click)="model.Company.Location.City=''">
                         <mat-icon>close</mat-icon>
                     </button>
                 </mat-form-field>
     
                 <!-- Save Button -->
                 <div  fxLayout="column" fxFlex.gt-xs="45" fxFlex.gt-sm="10" fxFlex.gt-md="10" fxFlex.gt-lg="10" fxFlex.gt-xl="10">
-                        <button mat-raised-button color="primary">Add</button>
+                        <button mat-raised-button color="primary" (click)="AddBill()">Add</button>
                 </div>
             
             </mat-toolbar>

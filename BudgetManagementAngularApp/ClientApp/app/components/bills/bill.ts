@@ -2,7 +2,9 @@ export interface IBill {
     billId: number;
     date: Date;
     memo: string;
+    companyid: number;
     company: string;
+    locationid: number;
     location: string;
     city: string;
     country: string;
@@ -22,7 +24,9 @@ export class Bill {
     public billId: number = 0;
     public date: Date = new Date();
     public memo: string = "";
+    public companyid: number = 0;
     public company: string = "";
+    public locationid: number = 0;
     public location: string = "";
     public city: string = "";
     public country: string = "";
@@ -55,5 +59,77 @@ export class Bill {
     constructor() {
         this.verified = false;
         this.date = new Date();
+    }
+}
+
+
+export class Location {
+    public LocationID: number = 0;
+    public City: string = "";
+    public Country: string = "";
+    public State: string = "";
+
+    constructor() {
+        this.LocationID = 0;
+        this.City = "";
+        this.Country = "";
+        this.State = "";
+    }
+}
+
+export class Company {
+    public CompanyID: number = 0;
+    public CompanyName: string = "";
+    public Location: Location = new Location();
+
+    constructor() {
+        this.CompanyID = 0;
+        this.CompanyName = "";
+    }
+}
+
+export class ProductType {
+    public ProductTypeID: number = 0;
+    public TypeName: string = "";
+
+    constructor() {
+        this.ProductTypeID = 0;
+        this.TypeName = "";
+    }
+}
+
+export class Product {
+    public ProductID: number = 0;
+    public BillID: number = 0;
+    public ProductName: string = "";
+    public ProductType: ProductType = new ProductType();
+    public Brand: string = "";
+    public Amount: number = 0;
+    public isPlanned: boolean = false;
+    public Price: number = 0;
+}
+
+export class Bill1 {
+
+    public BillID: number = 0;
+    public Date: Date = new Date();
+    public DateEntered: Date = new Date();
+    public Memo: string = "";
+    public Company: Company = new Company();
+    public Products: Product[] = [];
+    public isVerified: boolean = false;
+    public TotalAmount: number = 0;
+    public TotalCount: number = 0;
+
+    constructor() {
+        this.BillID = 0;
+        this.Date = new Date();
+        this.DateEntered = new Date();
+        this.Memo = "";
+        this.Company = new Company();
+        this.Products = [];
+        this.isVerified = false;
+        this.TotalAmount = 0;
+        this.TotalCount = 0;
     }
 }

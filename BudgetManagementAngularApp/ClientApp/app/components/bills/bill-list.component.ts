@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { IBill, Bill } from './bill';
+import { IBill, Bill, Bill1 } from './bill';
 import { BillService } from '../data/bill.service';
 import { Totals } from '../shared/totals';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -25,7 +25,7 @@ export class BillListComponent implements OnInit {
   bills: IBill[] = [];
   totals: Totals[] = [];
   totalCount: number = 0;
-  model = new Bill();
+  model = new Bill1();
 
   // auto complete option
   billFormGroup: FormGroup;
@@ -156,5 +156,11 @@ export class BillListComponent implements OnInit {
     this.isAllSelected() ?
         this.selection.clear() :
         this.dataSource.data.forEach(row => this.selection.select(row));
-  }
+    }
+
+    AddBill() {
+        alert('Saved');
+        console.log(this.model);
+        this.billService.saveBill(this.model);
+    }
 }
