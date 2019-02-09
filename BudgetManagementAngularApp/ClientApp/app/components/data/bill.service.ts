@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Http } from '@angular/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, tap, map } from 'rxjs/operators';
@@ -11,10 +11,10 @@ import { IBill, Bill1 } from '../bills/bill';
 })
 export class BillService {
     private billsUrl = '/api/products/bills.json';
-    private baseUrl1;
+    private baseUrl1 = window.location.origin + '/api/Bill/';
 
     constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
-        this.baseUrl1 = baseUrl;
+        //this.baseUrl1 = baseUrl;
     }
 
     getBills(): Observable<IBill[]> {
@@ -24,7 +24,18 @@ export class BillService {
     }
 
     saveBill(b: Bill1) {
-        this.http.post<Bill1>(this.baseUrl1 + 'api/Bill/SaveBill', JSON.stringify(b));
+        console.log(b);
+
+        const bill = JSON.stringify(b);
+        const headerOptions = new HttpHeaders({ 'Content-Type': 'application/json' });
+        return this.http.post<boolean>(this.baseUrl1 + 'SaveBill', bill, {
+            headers: headerOptions
+        }).pipe(
+            catchError(this.handleError)
+            );
+
+
+       // this.http.post<Bill1>(this.baseUrl1 + '/api/Bill/SaveBill', JSON.stringify(b));
     }
 
 

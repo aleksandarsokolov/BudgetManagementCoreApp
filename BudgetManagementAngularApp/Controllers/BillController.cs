@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using BudgetManagementAngularApp.Model;
 using BudgetManagementAngularApp.ViewModel;
 using Microsoft.AspNetCore.Mvc;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Model;
 
 namespace BudgetManagementAngularApp.Controllers
 {
+    [Produces("application/json")]
     [Route("api/[controller]")]
     public class BillController : Controller
     {
@@ -76,8 +74,37 @@ namespace BudgetManagementAngularApp.Controllers
 
         //[HttpPost("[action]")]
 
-        [HttpPost]
-        [ActionName("SaveBill")]
+        //[HttpPost]
+        //[ActionName("SaveBill")]
+        //public IActionResult SaveBill([FromBody]BillViewModel bill)
+        //{
+        //    try
+        //    {
+        //        BudgetAppDbContext db = new BudgetAppDbContext();
+        //        Bill newBill = new Bill
+        //        {
+        //            Billid = bill.BillID,
+        //            Memo = bill.Memo,
+        //            Companyid = bill.Company.CompanyID,
+        //            Date = DateTime.Parse(bill.Date),
+        //            Utctimestamp = DateTime.UtcNow
+        //        };
+
+        //        db.Bill.Add(newBill);
+        //        db.SaveChanges();
+
+        //        return CreatedAtRoute("OwnerById", new { id = newBill.Billid });
+        //    }
+        //    catch (Exception)
+        //    {
+        //        return StatusCode(500, "Internal server error");
+        //    }
+
+        //    //return newBill.Billid;
+        //}
+
+
+        [HttpPost("[action]")]
         public IActionResult SaveBill([FromBody]BillViewModel bill)
         {
             try
@@ -94,18 +121,15 @@ namespace BudgetManagementAngularApp.Controllers
 
                 db.Bill.Add(newBill);
                 db.SaveChanges();
-
-                return CreatedAtRoute("OwnerById", new { id = newBill.Billid });
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return StatusCode(500, "Internal server error");
+                return Json(false);
             }
-
-            //return newBill.Billid;
+            return Json(true);
         }
 
 
-        
+
     }
 }

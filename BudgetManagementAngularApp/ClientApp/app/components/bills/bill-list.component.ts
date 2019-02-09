@@ -158,9 +158,13 @@ export class BillListComponent implements OnInit {
         this.dataSource.data.forEach(row => this.selection.select(row));
     }
 
-    AddBill() {
-        alert('Saved');
-        console.log(this.model);
-        this.billService.saveBill(this.model);
+    AddBill() {								
+        this.billService.saveBill(this.model).subscribe((creationstatus) => {
+            // do necessary staff with creation status
+            console.log(creationstatus);
+        }, (error) => {
+            // handle the error here
+            console.log(error);
+        });
     }
 }
