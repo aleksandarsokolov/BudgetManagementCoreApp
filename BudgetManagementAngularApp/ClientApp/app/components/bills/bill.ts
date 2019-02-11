@@ -19,48 +19,48 @@ export interface IBill {
     products: any[];
 }
 
-export class Bill {
+//export class Bill {
 
-    public billId: number = 0;
-    public date: Date = new Date();
-    public memo: string = "";
-    public companyid: number = 0;
-    public company: string = "";
-    public locationid: number = 0;
-    public location: string = "";
-    public city: string = "";
-    public country: string = "";
-    public totalProducts: number = 0;
-    public totalPrice: number = 0;
-    public currency: string = "";
-    public utcTimeStamp: string = "";
-    public userId: number = 0;
-    public lat: number = 0;
-    public long: number = 0;
-    public verified: boolean = false;
-    public products!: any[]; 
+//    public billId: number = 0;
+//    public date: Date = new Date();
+//    public memo: string = "";
+//    public companyid: number = 0;
+//    public company: string = "";
+//    public locationid: number = 0;
+//    public location: string = "";
+//    public city: string = "";
+//    public country: string = "";
+//    public totalProducts: number = 0;
+//    public totalPrice: number = 0;
+//    public currency: string = "";
+//    public utcTimeStamp: string = "";
+//    public userId: number = 0;
+//    public lat: number = 0;
+//    public long: number = 0;
+//    public verified: boolean = false;
+//    public products!: any[]; 
 
-    // constructor(
-    //     public billId: number,
-    //     public date: string,
-    //     public memo: string,
-    //     public company: string,
-    //     public city: string,
-    //     public country: string,
-    //     public totalPrice: number,
-    //     public utcTimeStamp: string,
-    //     public userId: number,
-    //     public lat: number,
-    //     public long: number,
-    //     public verified: boolean,
-    //     public products: any[]
-    // ) {}
+//    // constructor(
+//    //     public billId: number,
+//    //     public date: string,
+//    //     public memo: string,
+//    //     public company: string,
+//    //     public city: string,
+//    //     public country: string,
+//    //     public totalPrice: number,
+//    //     public utcTimeStamp: string,
+//    //     public userId: number,
+//    //     public lat: number,
+//    //     public long: number,
+//    //     public verified: boolean,
+//    //     public products: any[]
+//    // ) {}
 
-    constructor() {
-        this.verified = false;
-        this.date = new Date();
-    }
-}
+//    constructor() {
+//        this.verified = false;
+//        this.date = new Date();
+//    }
+//}
 
 
 export class Location {
@@ -109,7 +109,7 @@ export class Product {
     public Price: number = 0;
 }
 
-export class Bill1 {
+export class Bill {
 
     public BillID: number = 0;
     public Date: Date = new Date();

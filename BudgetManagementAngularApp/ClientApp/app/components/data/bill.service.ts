@@ -3,7 +3,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular
 import { Http } from '@angular/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, tap, map } from 'rxjs/operators';
-import { IBill, Bill1 } from '../bills/bill';
+import { IBill, Bill } from '../bills/bill';
 
 
 @Injectable({
@@ -23,7 +23,7 @@ export class BillService {
         );
     }
 
-    saveBill(b: Bill1) {
+    saveBill(b: Bill) {
         const bill = JSON.stringify(b);
         const headerOptions = new HttpHeaders({ 'Content-Type': 'application/json' });
         return this.http.post<boolean>(this.baseUrl + 'Bill/SaveBill', bill, {
