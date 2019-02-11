@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { IBill, Bill } from './bill';
+import { IBill, Bill, ICompany } from './bill';
 import { BillService } from '../data/bill.service';
 import { Totals } from '../shared/totals';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -10,6 +10,7 @@ import * as $ from 'jquery';
 import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
 import { trigger, state, style, transition, animate } from '@angular/animations';
+import { CompanyService } from '../data/company.service';
 // import { BillService } from './bill.service';
 
 @Component({
@@ -23,6 +24,7 @@ export class BillListComponent implements OnInit {
     showAddNew: boolean = true;
     errorMessage: string = "";
     bills: IBill[] = [];
+    companies: ICompany[] = [];
     totals: Totals[] = [];
     totalCount: number = 0;
     model = new Bill();
@@ -42,7 +44,7 @@ export class BillListComponent implements OnInit {
     constructor(private route: ActivatedRoute,
         private router: Router,
         private billService: BillService,
-
+        private companyService: CompanyService,
         private _formBuilder: FormBuilder) {
 
         this.billFormGroup = this._formBuilder.group({
@@ -56,14 +58,26 @@ export class BillListComponent implements OnInit {
                 this.bills = bills;
                 this.dataSource = new MatTableDataSource<IBill>(bills);
                 this.selection = new SelectionModel<IBill>(true, bills.filter(bill => bill.verified === true));
-                this.optionsCompanies = bills.map(bill => bill.company);
+                //this.optionsCompanies = bills.map(bill => bill.company);
                 this.dataSource.sort = this.sort;
                 this.getTotalCost();
                 this.getTotalCount();
-                console.log();
             },
             error => this.errorMessage = <any>error
         );
+
+        this.companyService.getCompanies().subscribe(
+            results => {
+                this.companies = results;
+                this.optionsCompanies = results.map(company => company.CompanyName)
+                    .filter(function (elem, index, self) {
+                        return index === self.indexOf(elem);
+                    }).sort();
+                
+            },
+            error => this.errorMessage = <any>error
+        );
+
 
         //Companies Autocomplete
         this.filteredCompanies = this.billFormGroup.controls.company.valueChanges

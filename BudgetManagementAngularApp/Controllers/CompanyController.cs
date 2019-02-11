@@ -18,7 +18,7 @@ namespace BudgetManagementAngularApp.Controllers
         {
             using (BudgetAppDbContext db = new BudgetAppDbContext())
             {
-                return db.Company.Select(x => new CompanyViewModel
+                IEnumerable<CompanyViewModel> companies = db.Company.Select(x => new CompanyViewModel
                 {
                     CompanyID = x.Companyid,
                     CompanyName = x.Name,
@@ -30,6 +30,8 @@ namespace BudgetManagementAngularApp.Controllers
                         Country = y.Country
                     }).SingleOrDefault()
                 }).ToList();
+                
+                return companies;
             }
         }
     }
