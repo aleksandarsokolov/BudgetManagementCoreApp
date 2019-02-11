@@ -3,30 +3,29 @@ import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular
 import { Http } from '@angular/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, tap, map } from 'rxjs/operators';
-import { IBill, Bill1 } from '../bills/bill';
+import { ICompany, Company } from '../bills/bill';
 
 
 @Injectable({
   providedIn: 'root'
 })
-export class BillService {
-    private billsUrl = '/api/products/bills.json';
+export class CompanyService {
     private baseUrl;
 
     constructor(private http: HttpClient, @Inject('BASE_URL') appUrl: string) {
         this.baseUrl = appUrl + '/api/';
     }
 
-    getBills(): Observable<IBill[]> {
-        return this.http.get<IBill[]>(this.billsUrl).pipe(
+    getCompanies(): Observable<ICompany[]> {
+        return this.http.get<ICompany[]>(this.baseUrl + 'Company/GetCompanies').pipe(
             catchError(this.handleError)
         );
     }
 
-    saveBill(b: Bill1) {
-        const bill = JSON.stringify(b);
+    saveCompany(b: Company) {
+        const company = JSON.stringify(b);
         const headerOptions = new HttpHeaders({ 'Content-Type': 'application/json' });
-        return this.http.post<boolean>(this.baseUrl + 'Bill/SaveBill', bill, {
+        return this.http.post<boolean>(this.baseUrl + 'Company/SaveCompany', company, {
             headers: headerOptions
         }).pipe(
             catchError(this.handleError)

@@ -16,6 +16,6 @@ namespace BudgetManagementAngularApp.Model
         [StringLength(100)]
         public string Name { get; set; }
         [Column("utctimestamp", TypeName = "timestamp with time zone")]
-        public DateTime? Utctimestamp { get; set; }
+        public DateTime Utctimestamp { get; set; }
     }
 }

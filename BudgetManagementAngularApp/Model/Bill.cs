@@ -11,17 +11,17 @@ namespace BudgetManagementAngularApp.Model
         [Column("billid")]
         public int Billid { get; set; }
         [Column("date", TypeName = "date")]
-        public DateTime? Date { get; set; }
+        public DateTime Date { get; set; }
         [Column("memo")]
         [StringLength(150)]
         public string Memo { get; set; }
         [Column("companyid")]
-        public int? Companyid { get; set; }
+        public int Companyid { get; set; }
         [Column("locationid")]
-        public int? Locationid { get; set; }
+        public int Locationid { get; set; }
         [Column("verified")]
-        public bool? Verified { get; set; }
+        public bool Verified { get; set; }
         [Column("utctimestamp", TypeName = "timestamp with time zone")]
-        public DateTime? Utctimestamp { get; set; }
+        public DateTime Utctimestamp { get; set; }
     }
 }

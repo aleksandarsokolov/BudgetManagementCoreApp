@@ -12,23 +12,6 @@ namespace BudgetManagementAngularApp.Controllers
     [Route("api/[controller]")]
     public class BillController : Controller
     {
-        //public IActionResult Index()
-        //{
-        //    return View();
-        //}
-
-
-        //[HttpGet("[action]")]
-        //public IEnumerable<WeatherForecast> WeatherForecasts()
-        //{
-        //    var rng = new Random();
-        //    return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-        //    {
-        //        DateFormatted = DateTime.Now.AddDays(index).ToString("d"),
-        //        TemperatureC = rng.Next(-20, 55),
-        //        Summary = Summaries[rng.Next(Summaries.Length)]
-        //    });
-        //}
 
         [HttpGet("[action]")]
         public IEnumerable<BillViewModel> GetBills()
@@ -38,7 +21,7 @@ namespace BudgetManagementAngularApp.Controllers
             {
                 BillID = x.Billid,
                 Memo = x.Memo,
-                isVerified = x.Verified ?? false,
+                isVerified = x.Verified,
                 Products = db.Product.Where(y => y.Billid == x.Billid).Select(y => new ProductViewModel
                 {
                     ProductID = y.Productid,
@@ -48,7 +31,7 @@ namespace BudgetManagementAngularApp.Controllers
                         ProductTypeID = z.Productypeid,
                         TypeName = z.Typename
                     }).First(),
-                    isPlanned = y.Isplanned ?? false,
+                    isPlanned = y.Isplanned,
                     Amount = y.Amount,
                     Price = y.Price,
                     Brand = y.Brand
@@ -71,38 +54,6 @@ namespace BudgetManagementAngularApp.Controllers
 
             }).ToList();
         }
-
-        //[HttpPost("[action]")]
-
-        //[HttpPost]
-        //[ActionName("SaveBill")]
-        //public IActionResult SaveBill([FromBody]BillViewModel bill)
-        //{
-        //    try
-        //    {
-        //        BudgetAppDbContext db = new BudgetAppDbContext();
-        //        Bill newBill = new Bill
-        //        {
-        //            Billid = bill.BillID,
-        //            Memo = bill.Memo,
-        //            Companyid = bill.Company.CompanyID,
-        //            Date = DateTime.Parse(bill.Date),
-        //            Utctimestamp = DateTime.UtcNow
-        //        };
-
-        //        db.Bill.Add(newBill);
-        //        db.SaveChanges();
-
-        //        return CreatedAtRoute("OwnerById", new { id = newBill.Billid });
-        //    }
-        //    catch (Exception)
-        //    {
-        //        return StatusCode(500, "Internal server error");
-        //    }
-
-        //    //return newBill.Billid;
-        //}
-
 
         [HttpPost("[action]")]
         public IActionResult SaveBill([FromBody]BillViewModel bill)

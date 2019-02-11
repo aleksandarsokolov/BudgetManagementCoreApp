@@ -133,3 +133,29 @@ export class Bill1 {
         this.TotalCount = 0;
     }
 }
+
+export interface IBill1 {
+    BillID: number;
+    Date: Date;
+    DateEntered: Date;
+    Memo: string;
+    Company: Company;
+    Products: Product[];
+    isVerified: boolean;
+    TotalAmount: number;
+    TotalCount: number;
+}
+
+export interface ICompany {
+    CompanyID: number;
+    CompanyName: string;
+    Location: ILocation;
+}
+
+export interface ILocation {
+    LocationID: number;
+    City: string;
+    Country: string;
+    State: string;
+}
+
