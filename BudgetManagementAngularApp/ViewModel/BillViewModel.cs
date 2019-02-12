@@ -37,5 +37,6 @@ namespace BudgetManagementAngularApp.ViewModel
         public bool isVerified { get; set; }
         public decimal? TotalAmount { get; set; }
         public decimal TotalCount { get; set; }
+        public string Categories { get; set; }
     }
 }

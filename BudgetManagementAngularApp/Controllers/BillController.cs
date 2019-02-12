@@ -29,7 +29,8 @@ namespace BudgetManagementAngularApp.Controllers
                     ProductType =db.Producttype.Where(z => z.Productypeid == y.Producttypeid).Select(z => new ProductTypeViewModel
                     {
                         ProductTypeID = z.Productypeid,
-                        TypeName = z.Typename
+                        TypeName = z.Typename,
+                        Icon = z.Icon
                     }).First(),
                     isPlanned = y.Isplanned,
                     Amount = y.Amount,
@@ -50,8 +51,8 @@ namespace BudgetManagementAngularApp.Controllers
 
                 }).FirstOrDefault(),
                 TotalCount = db.Product.Where(y => y.Billid == x.Billid).Count(),
-                TotalAmount = db.Product.Where(y => y.Billid == x.Billid).Select(y => y.Price).Sum()
-
+                TotalAmount = db.Product.Where(y => y.Billid == x.Billid).Select(y => y.Price).Sum(),
+                Categories = string.Join(", ", db.Product.Where(y => y.Billid == x.Billid).Select(z => db.Producttype.Where(w => z.Producttypeid == w.Productypeid).Select(w => w.Icon).ToArray()))
             }).ToList();
         }
 

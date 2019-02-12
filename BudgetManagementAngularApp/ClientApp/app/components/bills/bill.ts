@@ -144,6 +144,7 @@ export interface IBill1 {
     isVerified: boolean;
     TotalAmount: number;
     TotalCount: number;
+    Categories: string;
 }
 
 export interface ICompany {

@@ -17,8 +17,6 @@ namespace BudgetManagementAngularApp.Model
         public string Memo { get; set; }
         [Column("companyid")]
         public int Companyid { get; set; }
-        [Column("locationid")]
-        public int Locationid { get; set; }
         [Column("verified")]
         public bool Verified { get; set; }
         [Column("utctimestamp", TypeName = "timestamp with time zone")]

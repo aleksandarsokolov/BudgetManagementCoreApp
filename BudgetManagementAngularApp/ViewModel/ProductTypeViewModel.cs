@@ -9,5 +9,6 @@ namespace BudgetManagementAngularApp.ViewModel
     {
         public int ProductTypeID;
         public string TypeName;
+        public string Icon;
     }
 }
