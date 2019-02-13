@@ -58,7 +58,7 @@ export class BillListComponent implements OnInit {
                 this.bills = bills;
                 this.dataSource = new MatTableDataSource<IBill1>(bills);
                 this.selection = new SelectionModel<IBill1>(true, bills.filter(bill => bill.isVerified === true));
-                console.log(this.dataSource);
+
                 this.dataSource.sortingDataAccessor = (data: any, sortHeaderId: string): string | number => {
                     let value = null;
                     switch (sortHeaderId) {
@@ -80,7 +80,8 @@ export class BillListComponent implements OnInit {
                         + data.Company.Location.City
                         + data.Company.Location.Country
                         + data.TotalCount
-                        + data.TotalAmount;
+                        + data.TotalAmount
+                        + data.Categories.map(category => category.TypeName).join(',');
                     return dataStr.toLowerCase().indexOf(filter) != -1;
                 }
 
