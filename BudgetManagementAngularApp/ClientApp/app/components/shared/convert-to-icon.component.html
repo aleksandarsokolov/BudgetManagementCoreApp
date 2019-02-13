@@ -1,4 +1,4 @@
 <!-- <ul>
   <li *ngFor='let icon of icons' [title]='icon' class='fa {{ icon }}' style='float:left'></li> -->
-  <mat-icon *ngFor='let icon of types' [title]='icon' aria-hidden="true" style='float:left'>{{ icon }}</mat-icon>
+  <mat-icon *ngFor='let type of types' [title]='type.TypeName' aria-hidden="true" style='float:left'>{{ type.Icon }}</mat-icon>
 <!-- </ul> -->

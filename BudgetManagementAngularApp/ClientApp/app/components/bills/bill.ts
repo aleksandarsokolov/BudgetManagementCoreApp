@@ -19,49 +19,6 @@ export interface IBill {
     products: any[];
 }
 
-//export class Bill {
-
-//    public billId: number = 0;
-//    public date: Date = new Date();
-//    public memo: string = "";
-//    public companyid: number = 0;
-//    public company: string = "";
-//    public locationid: number = 0;
-//    public location: string = "";
-//    public city: string = "";
-//    public country: string = "";
-//    public totalProducts: number = 0;
-//    public totalPrice: number = 0;
-//    public currency: string = "";
-//    public utcTimeStamp: string = "";
-//    public userId: number = 0;
-//    public lat: number = 0;
-//    public long: number = 0;
-//    public verified: boolean = false;
-//    public products!: any[]; 
-
-//    // constructor(
-//    //     public billId: number,
-//    //     public date: string,
-//    //     public memo: string,
-//    //     public company: string,
-//    //     public city: string,
-//    //     public country: string,
-//    //     public totalPrice: number,
-//    //     public utcTimeStamp: string,
-//    //     public userId: number,
-//    //     public lat: number,
-//    //     public long: number,
-//    //     public verified: boolean,
-//    //     public products: any[]
-//    // ) {}
-
-//    constructor() {
-//        this.verified = false;
-//        this.date = new Date();
-//    }
-//}
-
 
 export class Location {
     public LocationID: number = 0;
@@ -122,7 +79,7 @@ export class Bill {
     public isVerified: boolean = false;
     public TotalAmount: number = 0;
     public TotalCount: number = 0;
-    public Categories: string[] = [];
+    public Categories: ProductType[] = [];
 
     constructor() {
         this.BillID = 0;
@@ -148,7 +105,7 @@ export interface IBill1 {
     isVerified: boolean;
     TotalAmount: number;
     TotalCount: number;
-    Categories: string[];
+    Categories: IProductType[];
 }
 
 export interface ICompany {

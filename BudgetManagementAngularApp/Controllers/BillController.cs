@@ -58,7 +58,11 @@ namespace BudgetManagementAngularApp.Controllers
                 Categories = (from p in db.Product
                               join pt in db.Producttype on p.Producttypeid equals pt.Productypeid
                               where p.Billid == x.Billid
-                              select pt.Icon).Distinct().ToList()
+                              select new ProductTypeViewModel {
+                                  ProductTypeID = pt.Productypeid,
+                                  TypeName = pt.Typename,
+                                  Icon = pt.Icon
+                              }).Distinct().ToList()
             }).ToList();
         }
 

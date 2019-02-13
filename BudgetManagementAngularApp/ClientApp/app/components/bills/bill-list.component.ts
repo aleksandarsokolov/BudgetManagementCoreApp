@@ -58,11 +58,9 @@ export class BillListComponent implements OnInit {
                 this.bills = bills;
                 this.dataSource = new MatTableDataSource<IBill1>(bills);
                 this.selection = new SelectionModel<IBill1>(true, bills.filter(bill => bill.isVerified === true));
-                //this.optionsCompanies = bills.map(bill => bill.company);
+                console.log(this.dataSource);
                 this.dataSource.sortingDataAccessor = (data: any, sortHeaderId: string): string | number => {
-
                     let value = null;
-
                     switch (sortHeaderId) {
                         case 'Company':
                             value = data.Company.CompanyName;
@@ -73,9 +71,19 @@ export class BillListComponent implements OnInit {
                         default:
                             value = data[sortHeaderId];
                     }
-
                     return this._isNumberValue(value) ? Number(value) : value;
                 };
+
+                this.dataSource.filterPredicate = (data, filter) => {
+                    const dataStr = data.Memo
+                        + data.Company.CompanyName
+                        + data.Company.Location.City
+                        + data.Company.Location.Country
+                        + data.TotalCount
+                        + data.TotalAmount;
+                    return dataStr.toLowerCase().indexOf(filter) != -1;
+                }
+
                 this.dataSource.sort = this.sort;
                 this.getTotalCost();
                 this.getTotalCount();

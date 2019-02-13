@@ -39,7 +39,7 @@
                                 {{ comp }}
                             </mat-option>
                             </mat-autocomplete>
-                            <button mat-button *ngIf="model.company" matSuffix mat-icon-button aria-label="Clear" (click)="model.Company.CompanyName=''">
+                            <button mat-button *ngIf="model.Company.CompanyName" matSuffix mat-icon-button aria-label="Clear" (click)="model.Company.CompanyName=''">
                                 <mat-icon>close</mat-icon>
                             </button>
                         </mat-form-field>
@@ -49,7 +49,7 @@
                 <!-- Location -->
                 <mat-form-field fxLayout="column" fxFlex.gt-xs="45" fxFlex.gt-sm="45" fxFlex.gt-md="25" fxFlex.gt-lg="25" fxFlex.gt-xl="20" class="example-form-field">
                     <input matInput type="text" placeholder="Location" [(ngModel)]="model.Company.Location.City" name="location">
-                    <button mat-button *ngIf="model.location" matSuffix mat-icon-button aria-label="Clear" (click)="model.Company.Location.City=''">
+                    <button mat-button *ngIf="model.Company.Location.City" matSuffix mat-icon-button aria-label="Clear" (click)="model.Company.Location.City=''">
                         <mat-icon>close</mat-icon>
                     </button>
                 </mat-form-field>
