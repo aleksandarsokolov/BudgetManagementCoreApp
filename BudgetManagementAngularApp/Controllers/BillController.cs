@@ -20,6 +20,7 @@ namespace BudgetManagementAngularApp.Controllers
             return db.Bill.Select(x => new BillViewModel
             {
                 BillID = x.Billid,
+                Date = x.Date.ToString(),
                 Memo = x.Memo,
                 isVerified = x.Verified,
                 Products = db.Product.Where(y => y.Billid == x.Billid).Select(y => new ProductViewModel
@@ -52,7 +53,12 @@ namespace BudgetManagementAngularApp.Controllers
                 }).FirstOrDefault(),
                 TotalCount = db.Product.Where(y => y.Billid == x.Billid).Count(),
                 TotalAmount = db.Product.Where(y => y.Billid == x.Billid).Select(y => y.Price).Sum(),
-                Categories = string.Join(", ", db.Product.Where(y => y.Billid == x.Billid).Select(z => db.Producttype.Where(w => z.Producttypeid == w.Productypeid).Select(w => w.Icon).ToArray()))
+                //Categories = string.Join(", ", db.Product.Where(y => y.Billid == x.Billid).Select(z => db.Producttype.Where(w => z.Producttypeid == w.Productypeid).Select(w => w.Icon)).ToArray())
+
+                Categories = (from p in db.Product
+                              join pt in db.Producttype on p.Producttypeid equals pt.Productypeid
+                              where p.Billid == x.Billid
+                              select pt.Icon).Distinct().ToList()
             }).ToList();
         }
 

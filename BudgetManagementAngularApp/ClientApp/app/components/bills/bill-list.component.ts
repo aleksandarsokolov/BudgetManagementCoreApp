@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { IBill, Bill, ICompany } from './bill';
+import { IBill, Bill, IBill1, ICompany } from './bill';
 import { BillService } from '../data/bill.service';
 import { Totals } from '../shared/totals';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -23,7 +23,7 @@ export class BillListComponent implements OnInit {
     showVerify: boolean = false;
     showAddNew: boolean = true;
     errorMessage: string = "";
-    bills: IBill[] = [];
+    bills: IBill1[] = [];
     companies: ICompany[] = [];
     totals: Totals[] = [];
     totalCount: number = 0;
@@ -36,9 +36,9 @@ export class BillListComponent implements OnInit {
     filteredCompanies!: Observable<string[]>;
 
     //MatTable info
-    dataSource = new MatTableDataSource<IBill>([]);
+    dataSource = new MatTableDataSource<IBill1>([]);
     selection: any;
-    displayColumns = ['verified', 'date', 'memo', 'company', 'location', 'type', 'totalProducts', 'totalPrice', 'openBill'];
+    displayColumns = ['isVerified', 'Date', 'Memo', 'Company', 'Location', 'Categories', 'TotalCount', 'TotalAmount', 'openBill'];
     @ViewChild(MatSort) sort!: MatSort;
 
     constructor(private route: ActivatedRoute,
@@ -56,9 +56,26 @@ export class BillListComponent implements OnInit {
         this.billService.getBills().subscribe(
             bills => {
                 this.bills = bills;
-                this.dataSource = new MatTableDataSource<IBill>(bills);
-                this.selection = new SelectionModel<IBill>(true, bills.filter(bill => bill.verified === true));
+                this.dataSource = new MatTableDataSource<IBill1>(bills);
+                this.selection = new SelectionModel<IBill1>(true, bills.filter(bill => bill.isVerified === true));
                 //this.optionsCompanies = bills.map(bill => bill.company);
+                this.dataSource.sortingDataAccessor = (data: any, sortHeaderId: string): string | number => {
+
+                    let value = null;
+
+                    switch (sortHeaderId) {
+                        case 'Company':
+                            value = data.Company.CompanyName;
+                            break;
+                        case 'Location':
+                            value = data.Company.Location.City;
+                            break;
+                        default:
+                            value = data[sortHeaderId];
+                    }
+
+                    return this._isNumberValue(value) ? Number(value) : value;
+                };
                 this.dataSource.sort = this.sort;
                 this.getTotalCost();
                 this.getTotalCount();
@@ -114,22 +131,37 @@ export class BillListComponent implements OnInit {
         //console.log("Filtered List: " + JSON.stringify(this.dataSource);
     }
 
+    
+    _isNumberValue(value: any): boolean {
+        // parseFloat(value) handles most of the cases we're interested in (it treats null, empty string,
+        // and other non-number values as NaN, where Number just uses 0) but it considers the string
+        // '123hello' to be a valid number. Therefore we also check if Number(value) is NaN.
+        return !isNaN(parseFloat(value as any)) && !isNaN(Number(value));
+    }
+
 
     getTotalCost() {
         var me = this;
         me.totals = new Array<Totals>();
         if (me.dataSource != undefined) {
+            me.totals.push({ currency: '$', amount: 0.00 });
+
             me.dataSource.filteredData.forEach(function (elem) {
+                /* 
                 let index = -1;
+
                 if (me.totals.length != 0) {
                     index = me.totals.findIndex(e => e.currency === elem.currency);
                 }
 
                 if (index != -1) {
-                    me.totals[index].amount = me.totals[index].amount + elem.totalPrice;
+                    me.totals[index].amount = me.totals[index].amount + elem.TotalAmount;
                 } else {
-                    me.totals.push({ currency: elem.currency, amount: elem.totalPrice });
+                    me.totals.push({ currency: '$', amount: elem.TotalAmount });
                 }
+                */
+
+                me.totals[0].amount = me.totals[0].amount + elem.TotalAmount;
             });
 
         }
@@ -137,9 +169,9 @@ export class BillListComponent implements OnInit {
 
     getTotalCount() {
         if (this.dataSource.filteredData != undefined) {
-            this.totalCount = this.dataSource.filteredData.map(t => t.totalProducts).reduce((acc, value) => acc + value, 0);
+            this.totalCount = this.dataSource.filteredData.map(t => t.TotalCount).reduce((acc, value) => acc + value, 0);
         } else {
-            this.totalCount = this.bills.map(t => t.totalProducts).reduce((acc, value) => acc + value, 0);
+            this.totalCount = this.bills.map(t => t.TotalCount).reduce((acc, value) => acc + value, 0);
         }
     }
 

@@ -91,10 +91,12 @@ export class Company {
 export class ProductType {
     public ProductTypeID: number = 0;
     public TypeName: string = "";
+    public Icon: string = "";
 
     constructor() {
         this.ProductTypeID = 0;
         this.TypeName = "";
+        this.Icon = "";
     }
 }
 
@@ -120,6 +122,7 @@ export class Bill {
     public isVerified: boolean = false;
     public TotalAmount: number = 0;
     public TotalCount: number = 0;
+    public Categories: string[] = [];
 
     constructor() {
         this.BillID = 0;
@@ -131,6 +134,7 @@ export class Bill {
         this.isVerified = false;
         this.TotalAmount = 0;
         this.TotalCount = 0;
+        this.Categories = [];
     }
 }
 
@@ -139,12 +143,12 @@ export interface IBill1 {
     Date: Date;
     DateEntered: Date;
     Memo: string;
-    Company: Company;
-    Products: Product[];
+    Company: ICompany;
+    Products: IProduct[];
     isVerified: boolean;
     TotalAmount: number;
     TotalCount: number;
-    Categories: string;
+    Categories: string[];
 }
 
 export interface ICompany {
@@ -160,3 +164,20 @@ export interface ILocation {
     State: string;
 }
 
+
+export interface IProduct {
+    ProductID: number;
+    BillID: number;
+    ProductName: string;
+    ProductType: IProductType;
+    Brand: string;
+    Amount: number;
+    isPlanned: boolean;
+    Price: number;
+}
+
+export interface IProductType {
+    ProductTypeID: number;
+    TypeName: string;
+    Icon: string;
+}
