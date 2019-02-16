@@ -1,23 +1,23 @@
-export interface IBill {
-    billId: number;
-    date: Date;
-    memo: string;
-    companyid: number;
-    company: string;
-    locationid: number;
-    location: string;
-    city: string;
-    country: string;
-    totalProducts: number;
-    totalPrice: number;
-    currency: string;
-    utcTimeStamp: string;
-    userId: number;
-    lat: number;
-    long: number;
-    verified: boolean;
-    products: any[];
-}
+//export interface IBill {
+//    billId: number;
+//    date: Date;
+//    memo: string;
+//    companyid: number;
+//    company: string;
+//    locationid: number;
+//    location: string;
+//    city: string;
+//    country: string;
+//    totalProducts: number;
+//    totalPrice: number;
+//    currency: string;
+//    utcTimeStamp: string;
+//    userId: number;
+//    lat: number;
+//    long: number;
+//    verified: boolean;
+//    products: any[];
+//}
 
 
 export class Location {
@@ -81,21 +81,34 @@ export class Bill {
     public TotalCount: number = 0;
     public Categories: ProductType[] = [];
 
-    constructor() {
-        this.BillID = 0;
-        this.Date = new Date();
-        this.DateEntered = new Date();
-        this.Memo = "";
-        this.Company = new Company();
-        this.Products = [];
-        this.isVerified = false;
-        this.TotalAmount = 0;
-        this.TotalCount = 0;
-        this.Categories = [];
+    //constructor() {
+    //    this.BillID = 0;
+    //    this.Date = new Date();
+    //    this.DateEntered = new Date();
+    //    this.Memo = "";
+    //    this.Company = new Company();
+    //    this.Products = [];
+    //    this.isVerified = false;
+    //    this.TotalAmount = 0;
+    //    this.TotalCount = 0;
+    //    this.Categories = [];
+    //};
+
+    constructor(bill?: IBill) {
+        this.BillID = bill && bill.BillID || 0;
+        this.Date = bill && new Date(bill.Date) || new Date();
+        this.DateEntered = bill && new Date(bill.DateEntered) || new Date();
+        this.Memo = bill && bill.Memo || "";
+        this.Company = bill && bill.Company || new Company();
+        this.Products = bill && bill.Products || [];
+        this.isVerified = bill && bill.isVerified || false;
+        this.TotalAmount = bill && bill.TotalAmount || 0.00;
+        this.TotalCount = bill && bill.TotalCount || 0;
+        this.Categories = bill && bill.Categories || [];
     }
 }
 
-export interface IBill1 {
+export interface IBill {
     BillID: number;
     Date: Date;
     DateEntered: Date;

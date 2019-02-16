@@ -72,6 +72,29 @@ namespace BudgetManagementAngularApp.Controllers
             try
             {
                 BudgetAppDbContext db = new BudgetAppDbContext();
+
+                if (!CompanyExists(bill.Company))
+                {
+                    Location newLocation = new Location
+                    {
+                        Locationid = bill.Company.Location.LocationID,
+                        City = bill.Company.Location.City,
+                        Country = bill.Company.Location.Country,
+                        State = bill.Company.Location.State
+                    };
+                    db.Location.Add(newLocation);
+                    db.SaveChanges();
+
+                    Company newCompany = new Company
+                    {
+                        Companyid = bill.Company.CompanyID,
+                        Locationid = newLocation.Locationid,
+                        Name = bill.Company.CompanyName
+                    };
+                    db.Company.Add(newCompany);
+                    db.SaveChanges();
+                }
+
                 Bill newBill = new Bill
                 {
                     Billid = bill.BillID,
@@ -89,6 +112,37 @@ namespace BudgetManagementAngularApp.Controllers
                 return Json(false);
             }
             return Json(true);
+        }
+
+        public bool CompanyExists(CompanyViewModel company)
+        {
+            try
+            {
+                using(BudgetAppDbContext db = new BudgetAppDbContext())
+                {
+                    CompanyViewModel comp1 = db.Company.Where(z => z.Companyid == company.CompanyID).Select(z => new CompanyViewModel
+                    {
+                        CompanyID = z.Companyid,
+                        CompanyName = z.Name,
+                        Location = db.Location.Where(y => y.Locationid == z.Locationid && y.Locationid == company.Location.LocationID).Select(y => new LocationViewModel
+                        {
+                            LocationID = y.Locationid,
+                            City = y.City,
+                            State = y.State,
+                            Country = y.Country
+                        }).FirstOrDefault()
+                    }).FirstOrDefault();
+
+                    if (comp1 != null)
+                        return true;
+                    else
+                        return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
 
 

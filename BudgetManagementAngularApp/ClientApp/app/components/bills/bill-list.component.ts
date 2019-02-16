@@ -1,11 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { IBill, Bill, IBill1, ICompany } from './bill';
+import { IBill, Bill, ICompany, Company } from './bill';
 import { BillService } from '../data/bill.service';
 import { Totals } from '../shared/totals';
 import { SelectionModel } from '@angular/cdk/collections';
-import { MatSort, MatTableDataSource } from '@angular/material';
+import { MatSort, MatTableDataSource, MatAutocompleteTrigger } from '@angular/material';
 import * as $ from 'jquery';
 import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
@@ -18,27 +18,39 @@ import { CompanyService } from '../data/company.service';
     templateUrl: './bill-list.component.html',
     styleUrls: ['./bill-list.component.css']
 })
+
 export class BillListComponent implements OnInit {
     pageTitle: string = 'Bills List';
     showVerify: boolean = false;
     showAddNew: boolean = true;
     errorMessage: string = "";
-    bills: IBill1[] = [];
-    companies: ICompany[] = [];
-    totals: Totals[] = [];
-    totalCount: number = 0;
+
+    btnAddSaveName: string = "Add";
+
     model = new Bill();
 
+    bills: IBill[] = [];
+    companies: ICompany[] = [];
+
+    totals: Totals[] = [];
+    totalCount: number = 0;
+
     // auto complete option
-    billFormGroup: FormGroup;
+    companyFormGroup: FormGroup;
+
+    locationFormGroup: FormGroup;
+
+    //MatTable info
+    dataSource = new MatTableDataSource<IBill>([]);
 
     optionsCompanies: string[] = [];
     filteredCompanies!: Observable<string[]>;
 
-    //MatTable info
-    dataSource = new MatTableDataSource<IBill1>([]);
+    optionsLocations: string[] = [];
+    filteredLocations!: Observable<string[]>;
+
     selection: any;
-    displayColumns = ['isVerified', 'Date', 'Memo', 'Company', 'Location', 'Categories', 'TotalCount', 'TotalAmount', 'openBill'];
+    displayColumns = ['isVerified', 'Date', 'Memo', 'Company', 'Location', 'Categories', 'TotalCount', 'TotalAmount', 'editBill', 'openBill'];
     @ViewChild(MatSort) sort!: MatSort;
 
     constructor(private route: ActivatedRoute,
@@ -47,69 +59,33 @@ export class BillListComponent implements OnInit {
         private companyService: CompanyService,
         private _formBuilder: FormBuilder) {
 
-        this.billFormGroup = this._formBuilder.group({
+        this.companyFormGroup = this._formBuilder.group({
             company: new FormControl()
+        });
+
+        this.locationFormGroup = this._formBuilder.group({
+            location: new FormControl()
         });
     }
 
     ngOnInit() {
-        this.billService.getBills().subscribe(
-            bills => {
-                this.bills = bills;
-                this.dataSource = new MatTableDataSource<IBill1>(bills);
-                this.selection = new SelectionModel<IBill1>(true, bills.filter(bill => bill.isVerified === true));
+        this.GetBills();
 
-                this.dataSource.sortingDataAccessor = (data: any, sortHeaderId: string): string | number => {
-                    let value = null;
-                    switch (sortHeaderId) {
-                        case 'Company':
-                            value = data.Company.CompanyName;
-                            break;
-                        case 'Location':
-                            value = data.Company.Location.City;
-                            break;
-                        default:
-                            value = data[sortHeaderId];
-                    }
-                    return this._isNumberValue(value) ? Number(value) : value;
-                };
-
-                this.dataSource.filterPredicate = (data, filter) => {
-                    const dataStr = data.Memo
-                        + data.Company.CompanyName
-                        + data.Company.Location.City
-                        + data.Company.Location.Country
-                        + data.TotalCount
-                        + data.TotalAmount
-                        + data.Categories.map(category => category.TypeName).join(',');
-                    return dataStr.toLowerCase().indexOf(filter) != -1;
-                }
-
-                this.dataSource.sort = this.sort;
-                this.getTotalCost();
-                this.getTotalCount();
-            },
-            error => this.errorMessage = <any>error
-        );
-
-        this.companyService.getCompanies().subscribe(
-            results => {
-                this.companies = results;
-                this.optionsCompanies = results.map(company => company.CompanyName)
-                    .filter(function (elem, index, self) {
-                        return index === self.indexOf(elem);
-                    }).sort();
-                
-            },
-            error => this.errorMessage = <any>error
-        );
+        this.GetCompanies();
 
 
         //Companies Autocomplete
-        this.filteredCompanies = this.billFormGroup.controls.company.valueChanges
+        this.filteredCompanies = this.companyFormGroup.controls.company.valueChanges
             .pipe(
                 startWith(''),
-                map(value => this._filter(value))
+            map(value => this._filter(value, this.optionsCompanies))
+        );
+
+        //Locations Autocomplete
+        this.filteredLocations = this.locationFormGroup.controls.location.valueChanges
+            .pipe(
+                startWith(''),
+                map(value => this._filter(value, this.optionsLocations))
             );
 
         $(document).ready(function () {
@@ -118,10 +94,10 @@ export class BillListComponent implements OnInit {
     }
 
     //Companies Autocomplete
-    private _filter(value: string): string[] {
+    private _filter(value: string, lisToFilter: string[]): string[] {
         const filterValue = value.toLowerCase();
 
-        return this.optionsCompanies.filter(option => option.toLowerCase().includes(filterValue));
+        return lisToFilter.filter(option => option.toLowerCase().includes(filterValue));
     }
 
     showVerifyCheckboxes() {
@@ -211,13 +187,94 @@ export class BillListComponent implements OnInit {
             this.dataSource.data.forEach(row => this.selection.select(row));
     }
 
+    GetBills() {
+
+        this.billService.getBills().subscribe(
+            bills => {
+                this.bills = bills;
+                this.dataSource = new MatTableDataSource<IBill>(bills);
+                this.selection = new SelectionModel<IBill>(true, bills.filter(bill => bill.isVerified === true));
+
+                this.dataSource.sortingDataAccessor = (data: any, sortHeaderId: string): string | number => {
+                    let value = null;
+                    switch (sortHeaderId) {
+                        case 'Company':
+                            value = data.Company.CompanyName;
+                            break;
+                        case 'Location':
+                            value = data.Company.Location.City;
+                            break;
+                        default:
+                            value = data[sortHeaderId];
+                    }
+                    return this._isNumberValue(value) ? Number(value) : value;
+                };
+
+                this.dataSource.filterPredicate = (data, filter) => {
+                    const dataStr = data.Memo
+                        + data.Company.CompanyName
+                        + data.Company.Location.City
+                        + data.Company.Location.Country
+                        + data.TotalCount
+                        + data.TotalAmount
+                        + data.Categories.map(category => category.TypeName).join(',');
+                    return dataStr.toLowerCase().indexOf(filter) != -1;
+                }
+
+                this.dataSource.sort = this.sort;
+                this.getTotalCost();
+                this.getTotalCount();
+            },
+            error => this.errorMessage = <any>error
+        );
+    }
+
+    GetCompanies() {
+
+        this.companyService.getCompanies().subscribe(
+            results => {
+                this.companies = results;
+                this.optionsCompanies = results.map(company => company.CompanyName)
+                    .filter(function (elem, index, self) {
+                        return index === self.indexOf(elem);
+                    }).sort();
+                this.optionsLocations = results.map(company => company.Location.City)
+                    .filter(function (elem, index, self) {
+                        return index === self.indexOf(elem);
+                    }).sort();
+            },
+            error => this.errorMessage = <any>error
+        );
+    }
+
     AddBill() {
+
+        if (this.model.Company.CompanyID == 0) {
+            let comp: ICompany[];
+            comp = this.companies.filter(comp => comp.CompanyName == this.model.Company.CompanyName && comp.Location.City == this.model.Company.Location.City);
+            if (comp.length != 0) {
+                this.model.Company.CompanyID = comp[0].CompanyID;
+                this.model.Company.Location.LocationID = comp[0].Location.LocationID;
+            }
+        }
+
         this.billService.saveBill(this.model).subscribe((creationstatus) => {
             // do necessary staff with creation status
             console.log(creationstatus);
+            this.ClearModel();
         }, (error) => {
             // handle the error here
             console.log(error);
         });
+    }
+
+    EditBill(billid: number) {
+        this.model = new Bill(this.bills.find(bill => bill.BillID == billid));
+        this.btnAddSaveName = "Save";
+    }
+
+    ClearModel() {
+        this.model = new Bill();
+        this.btnAddSaveName = "Add";
     }
 }

@@ -3,7 +3,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular
 import { Http } from '@angular/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, tap, map } from 'rxjs/operators';
-import { IBill, Bill, IBill1 } from '../bills/bill';
+import { IBill, Bill } from '../bills/bill';
 
 
 @Injectable({
@@ -17,8 +17,8 @@ export class BillService {
         this.baseUrl = appUrl + '/api/';
     }
 
-    getBills(): Observable<IBill1[]> {
-        return this.http.get<IBill1[]>(this.baseUrl + 'Bill/GetBills').pipe(
+    getBills(): Observable<IBill[]> {
+        return this.http.get<IBill[]>(this.baseUrl + 'Bill/GetBills').pipe(
             catchError(this.handleError)
         );
     }
