@@ -39,31 +39,30 @@ namespace BudgetManagementAngularApp.Model
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.HasAnnotation("ProductVersion", "2.2.1-servicing-10028");
 
             modelBuilder.Entity<Bill>(entity =>
             {
-                entity.Property(e => e.Billid).ValueGeneratedNever();
+                entity.Property(e => e.Billid).ForNpgsqlUseSequenceHiLo("bill_billid_seq");
             });
 
             modelBuilder.Entity<Company>(entity =>
             {
-                entity.Property(e => e.Companyid).ValueGeneratedNever();
+                entity.Property(e => e.Companyid).ForNpgsqlUseSequenceHiLo("company_companyid_seq");
             });
 
             modelBuilder.Entity<List>(entity =>
             {
-                entity.Property(e => e.Listid).ValueGeneratedNever();
+                entity.Property(e => e.Listid).ForNpgsqlUseSequenceHiLo("list_listid_seq");
             });
 
             modelBuilder.Entity<Location>(entity =>
             {
-                entity.Property(e => e.Locationid).ValueGeneratedNever();
+                entity.Property(e => e.Locationid).ForNpgsqlUseSequenceHiLo("location_locationid_seq");
             });
 
             modelBuilder.Entity<Product>(entity =>
             {
-                entity.Property(e => e.Productid).ValueGeneratedNever();
+                entity.Property(e => e.Productid).ForNpgsqlUseSequenceHiLo("product_productid_seq");
 
                 entity.Property(e => e.Isplanned).HasDefaultValueSql("true");
             });
@@ -73,7 +72,7 @@ namespace BudgetManagementAngularApp.Model
                 entity.HasKey(e => e.Productypeid)
                     .HasName("producttype_pkey");
 
-                entity.Property(e => e.Productypeid).ValueGeneratedNever();
+                entity.Property(e => e.Productypeid).ForNpgsqlUseSequenceHiLo("producttype_productypeid_seq");
             });
         }
     }

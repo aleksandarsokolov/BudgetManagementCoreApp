@@ -63,7 +63,7 @@ namespace BudgetManagementAngularApp.Controllers
                                   TypeName = pt.Typename,
                                   Icon = pt.Icon
                               }).Distinct().ToList()
-            }).ToList();
+            }).ToList().OrderByDescending(x => x.Date); ;
         }
 
         [HttpPost("[action]")]
@@ -95,23 +95,38 @@ namespace BudgetManagementAngularApp.Controllers
                     db.SaveChanges();
                 }
 
-                Bill newBill = new Bill
-                {
-                    Billid = bill.BillID,
-                    Memo = bill.Memo,
-                    Companyid = bill.Company.CompanyID,
-                    Date = DateTime.Parse(bill.Date),
-                    Utctimestamp = DateTime.UtcNow
-                };
 
-                db.Bill.Add(newBill);
+                if (bill.BillID != 0)
+                {
+                    Bill newBill = new Bill
+                    {
+                        Billid = bill.BillID,
+                        Memo = bill.Memo,
+                        Companyid = bill.Company.CompanyID,
+                        Date = DateTime.Parse(bill.Date),
+                        Utctimestamp = DateTime.UtcNow
+                    };
+                    db.Bill.Update(newBill);
+                }
+                else
+                {
+                    Bill newBill = new Bill
+                    {
+                        Memo = bill.Memo,
+                        Companyid = bill.Company.CompanyID,
+                        Date = DateTime.Parse(bill.Date),
+                        Utctimestamp = DateTime.UtcNow
+                    };
+                    db.Bill.Add(newBill);
+                }
+
                 db.SaveChanges();
             }
             catch (Exception e)
             {
-                return Json(false);
+                return Json(new ResponseViewModel() { status = false, message = e.Message });
             }
-            return Json(true);
+            return Json(new ResponseViewModel() { status = true, message = "Bill has been successfully saved!" });
         }
 
         public bool CompanyExists(CompanyViewModel company)

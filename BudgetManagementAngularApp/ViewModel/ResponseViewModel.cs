@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace BudgetManagementAngularApp.ViewModel
 {
-    public class StatusViewModel
+    public class ResponseViewModel
     {
         public bool status { get; set; }
         public string message { get; set; }

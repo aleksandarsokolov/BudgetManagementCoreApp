@@ -247,7 +247,7 @@ export class BillListComponent implements OnInit {
         );
     }
 
-    AddBill() {
+    AddSaveBill() {
 
         if (this.model.Company.CompanyID == 0) {
             let comp: ICompany[];
@@ -262,6 +262,7 @@ export class BillListComponent implements OnInit {
             // do necessary staff with creation status
             console.log(creationstatus);
             this.ClearModel();
+            this.GetBills();
         }, (error) => {
             // handle the error here
             console.log(error);

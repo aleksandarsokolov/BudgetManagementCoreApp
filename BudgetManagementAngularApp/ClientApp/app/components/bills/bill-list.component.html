@@ -68,12 +68,12 @@
 
         <!-- Save Button -->
         <div fxLayout="column" fxFlex.gt-xs="45" fxFlex.gt-sm="10" fxFlex.gt-md="10" fxFlex.gt-lg="10" fxFlex.gt-xl="10">
-            <button mat-raised-button color="primary" (click)="AddBill()">{{ btnAddSaveName }}</button>
+            <button mat-raised-button [disabled]="!model.Date || !model.Memo || !model.Company.CompanyName || !model.Company.Location.City" color="primary" (click)="AddSaveBill()">{{ btnAddSaveName }}</button>
         </div>
         &nbsp;
         <!-- Clear Button -->
         <div fxLayout="column" fxFlex.gt-xs="45" fxFlex.gt-sm="10" fxFlex.gt-md="10" fxFlex.gt-lg="10" fxFlex.gt-xl="10">
-            <button mat-raised-button *ngIf="model.Memo" color="primary" (click)="ClearModel()">Clear</button>
+            <button mat-raised-button *ngIf="model.Memo || model.Company.CompanyName || model.Company.Location.City" color="warn" (click)="ClearModel()">Clear</button>
         </div>
 
     </mat-toolbar>
