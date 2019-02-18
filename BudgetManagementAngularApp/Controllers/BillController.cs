@@ -73,30 +73,10 @@ namespace BudgetManagementAngularApp.Controllers
             {
                 BudgetAppDbContext db = new BudgetAppDbContext();
 
-                if (!CompanyExists(bill.Company))
-                {
-                    Location newLocation = new Location
-                    {
-                        Locationid = bill.Company.Location.LocationID,
-                        City = bill.Company.Location.City,
-                        Country = bill.Company.Location.Country,
-                        State = bill.Company.Location.State
-                    };
-                    db.Location.Add(newLocation);
-                    db.SaveChanges();
-
-                    Company newCompany = new Company
-                    {
-                        Companyid = bill.Company.CompanyID,
-                        Locationid = newLocation.Locationid,
-                        Name = bill.Company.CompanyName
-                    };
-                    db.Company.Add(newCompany);
-                    db.SaveChanges();
-                }
+                bill.Company.CompanyID = SaveCompany(bill.Company);
 
 
-                if (bill.BillID != 0)
+                if (bill.BillID != 0 && bill.Company.CompanyID != 0)
                 {
                     Bill newBill = new Bill
                     {
@@ -129,17 +109,59 @@ namespace BudgetManagementAngularApp.Controllers
             return Json(new ResponseViewModel() { status = true, message = "Bill has been successfully saved!" });
         }
 
+        public int SaveCompany(CompanyViewModel comp)
+        {
+            try
+            {
+                BudgetAppDbContext db = new BudgetAppDbContext();
+
+                if (!CompanyExists(comp))
+                {
+
+                    if (!LocationExists(comp.Location))
+                    {
+                        Location newLocation = new Location
+                        {
+                            City = comp.Location.City,
+                            Country = comp.Location.Country,
+                            State = comp.Location.State
+                        };
+                        db.Location.Add(newLocation);
+                        db.SaveChanges();
+
+                        comp.Location.LocationID = newLocation.Locationid;
+                    }
+
+                    Company newCompany = new Company
+                    {
+                        Locationid = comp.Location.LocationID,
+                        Name = comp.CompanyName
+                    };
+                    db.Company.Add(newCompany);
+                    db.SaveChanges();
+
+                    return newCompany.Companyid;
+                }
+
+                return comp.CompanyID;
+            }
+            catch (Exception e)
+            {
+                return 0;
+            }        
+        }
+
         public bool CompanyExists(CompanyViewModel company)
         {
             try
             {
                 using(BudgetAppDbContext db = new BudgetAppDbContext())
                 {
-                    CompanyViewModel comp1 = db.Company.Where(z => z.Companyid == company.CompanyID).Select(z => new CompanyViewModel
+                    CompanyViewModel comp1 = db.Company.Where(z => z.Companyid == company.CompanyID && z.Name == company.CompanyName).Select(z => new CompanyViewModel
                     {
                         CompanyID = z.Companyid,
                         CompanyName = z.Name,
-                        Location = db.Location.Where(y => y.Locationid == z.Locationid && y.Locationid == company.Location.LocationID).Select(y => new LocationViewModel
+                        Location = db.Location.Where(y => y.Locationid == z.Locationid && y.Locationid == company.Location.LocationID && y.City == company.Location.City).Select(y => new LocationViewModel
                         {
                             LocationID = y.Locationid,
                             City = y.City,
@@ -148,7 +170,7 @@ namespace BudgetManagementAngularApp.Controllers
                         }).FirstOrDefault()
                     }).FirstOrDefault();
 
-                    if (comp1 != null)
+                    if (comp1 != null && comp1.Location != null)
                         return true;
                     else
                         return false;
@@ -160,7 +182,31 @@ namespace BudgetManagementAngularApp.Controllers
             }
         }
 
+        public bool LocationExists(LocationViewModel location)
+        {
+            try
+            {
+                using (BudgetAppDbContext db = new BudgetAppDbContext())
+                {
+                    LocationViewModel loc = db.Location.Where(y => y.Locationid == location.LocationID && y.City == location.City).Select(y => new LocationViewModel
+                    {
+                        LocationID = y.Locationid,
+                        City = y.City,
+                        State = y.State,
+                        Country = y.Country
+                    }).FirstOrDefault();
 
+                    if (loc != null)
+                        return true;
+                    else
+                        return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
 
     }
 }

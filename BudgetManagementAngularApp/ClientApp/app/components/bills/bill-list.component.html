@@ -207,6 +207,18 @@
                     <td fxShow="true" mat-footer-cell *matFooterCellDef></td>
                 </ng-container>
 
+                <!-- Delete -->
+                <ng-container matColumnDef="deleteBill">
+                    <th fxShow="true" mat-header-cell *matHeaderCellDef></th>
+                    <td fxShow="true" mat-cell *matCellDef="let bill">
+                        <button mat-icon-button color="primary" (click)="DeleteBill(bill.BillID)">
+                            <mat-icon aria-label="Delete button">delete</mat-icon>
+                        </button>
+                    </td>
+                    <td fxShow="true" mat-footer-cell *matFooterCellDef></td>
+                </ng-container>
+
+
                 <tr mat-header-row *matHeaderRowDef="getDisplayedColumns()"></tr>
                 <tr mat-row class="ripple" *matRowDef="let row; columns: getDisplayedColumns();"
                     (click)="selection.toggle(row)"></tr>
@@ -219,10 +231,6 @@
                 <button mat-icon-button color="primary" [disabled]='!showVerify'
                     matTooltip="Verify" matTooltipPosition='below'>
                     <mat-icon aria-label="Verify button">check_circle</mat-icon>
-                </button>
-                <button mat-icon-button color="primary" [disabled]='!showVerify' 
-                    matTooltip="Delete" matTooltipPosition='below'>
-                    <mat-icon aria-label="Delete button">delete</mat-icon>
                 </button>
             </div>
         </mat-toolbar>

@@ -50,7 +50,7 @@ export class BillListComponent implements OnInit {
     filteredLocations!: Observable<string[]>;
 
     selection: any;
-    displayColumns = ['isVerified', 'Date', 'Memo', 'Company', 'Location', 'Categories', 'TotalCount', 'TotalAmount', 'editBill', 'openBill'];
+    displayColumns = ['isVerified', 'Date', 'Memo', 'Company', 'Location', 'Categories', 'TotalCount', 'TotalAmount', 'editBill', 'deleteBill', 'openBill'];
     @ViewChild(MatSort) sort!: MatSort;
 
     constructor(private route: ActivatedRoute,
@@ -263,6 +263,7 @@ export class BillListComponent implements OnInit {
             console.log(creationstatus);
             this.ClearModel();
             this.GetBills();
+            this.GetCompanies();
         }, (error) => {
             // handle the error here
             console.log(error);
