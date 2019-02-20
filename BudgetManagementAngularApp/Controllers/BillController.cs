@@ -83,8 +83,7 @@ namespace BudgetManagementAngularApp.Controllers
                         Billid = bill.BillID,
                         Memo = bill.Memo,
                         Companyid = bill.Company.CompanyID,
-                        Date = DateTime.Parse(bill.Date),
-                        Utctimestamp = DateTime.UtcNow
+                        Date = DateTime.Parse(bill.Date)
                     };
                     db.Bill.Update(newBill);
                 }
@@ -124,7 +123,8 @@ namespace BudgetManagementAngularApp.Controllers
                         {
                             City = comp.Location.City,
                             Country = comp.Location.Country,
-                            State = comp.Location.State
+                            State = comp.Location.State,
+                            Utctimestamp = DateTime.UtcNow
                         };
                         db.Location.Add(newLocation);
                         db.SaveChanges();
@@ -135,7 +135,8 @@ namespace BudgetManagementAngularApp.Controllers
                     Company newCompany = new Company
                     {
                         Locationid = comp.Location.LocationID,
-                        Name = comp.CompanyName
+                        Name = comp.CompanyName,
+                        Utctimestamp = DateTime.UtcNow
                     };
                     db.Company.Add(newCompany);
                     db.SaveChanges();
@@ -188,7 +189,7 @@ namespace BudgetManagementAngularApp.Controllers
             {
                 using (BudgetAppDbContext db = new BudgetAppDbContext())
                 {
-                    LocationViewModel loc = db.Location.Where(y => y.Locationid == location.LocationID && y.City == location.City).Select(y => new LocationViewModel
+                    LocationViewModel loc = db.Location.Where(y => y.City == location.City && y.Locationid == location.LocationID).Select(y => new LocationViewModel
                     {
                         LocationID = y.Locationid,
                         City = y.City,
@@ -205,6 +206,33 @@ namespace BudgetManagementAngularApp.Controllers
             catch (Exception ex)
             {
                 return false;
+            }
+        }
+
+        [HttpPost("[action]")]
+        public IActionResult DeleteBill([FromBody]int billid)
+        {
+            try
+            {
+                BudgetAppDbContext db = new BudgetAppDbContext();
+
+                Bill billToDelete = (from b in db.Bill where b.Billid == billid select b).FirstOrDefault();
+
+
+                if (billToDelete != null)
+                {
+                    db.Bill.Remove(billToDelete);
+                    db.SaveChanges();
+                    return Json(new ResponseViewModel() { status = true, message = "Bill has been successfully deleted!" });
+                }
+                else
+                {
+                    return Json(new ResponseViewModel() { status = false, message = "Bill doesn't exist!" });
+                }
+            }
+            catch (Exception e)
+            {
+                return Json(new ResponseViewModel() { status = false, message = e.Message });
             }
         }
 

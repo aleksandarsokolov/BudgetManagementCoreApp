@@ -15,7 +15,7 @@ export class Bill {
 
     constructor(bill?: IBill) {
         this.BillID = bill && bill.BillID || 0;
-        this.Date = bill && new Date(bill.Date) || new Date();
+        this.Date = bill && bill.Date || new Date();
         this.DateEntered = bill && new Date(bill.DateEntered) || new Date();
         this.Memo = bill && bill.Memo || "";
         this.Company = bill && bill.Company || new Company();

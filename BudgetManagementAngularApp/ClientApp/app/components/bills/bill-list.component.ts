@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { IBill, Bill, ICompany, Company } from './bill';
+import { IBill, Bill, ICompany, Company, ILocation } from './bill';
 import { BillService } from '../data/bill.service';
 import { Totals } from '../shared/totals';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -251,11 +251,16 @@ export class BillListComponent implements OnInit {
 
         if (this.model.Company.CompanyID == 0) {
             let comp: ICompany[];
-            comp = this.companies.filter(comp => comp.CompanyName == this.model.Company.CompanyName && comp.Location.City == this.model.Company.Location.City);
+            comp = this.companies.filter(comp => comp.CompanyName == this.model.Company.CompanyName);
             if (comp.length != 0) {
                 this.model.Company.CompanyID = comp[0].CompanyID;
+            }
+
+            comp = this.companies.filter(comp => comp.Location.City == this.model.Company.Location.City);
+            if (comp.length != 0) {
                 this.model.Company.Location.LocationID = comp[0].Location.LocationID;
             }
+     
         }
 
         this.billService.saveBill(this.model).subscribe((creationstatus) => {
@@ -271,10 +276,32 @@ export class BillListComponent implements OnInit {
     }
 
     EditBill(billid: number) {
-        this.model = new Bill(this.bills.find(bill => bill.BillID == billid));
+
+        var tempBill = new Bill(this.bills.find(bill => bill.BillID == billid));
+
+        var d = new Date(tempBill.Date);
+        d.setMinutes(d.getMinutes() + d.getTimezoneOffset());
+        tempBill.Date = d;
+
+
+        this.model = tempBill;
         this.btnAddSaveName = "Save";
     }
 
+    DeleteBill(billid: number) {
+
+        this.billService.deleteBill(billid).subscribe((creationstatus) => {
+            // do necessary staff with creation status
+            console.log(creationstatus);
+            this.GetBills();
+            this.GetCompanies();
+        }, (error) => {
+            // handle the error here
+            console.log(error);
+        });
+
+
+    }
     ClearModel() {
         this.model = new Bill();
         this.btnAddSaveName = "Add";

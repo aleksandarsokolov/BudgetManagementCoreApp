@@ -189,7 +189,7 @@
                 <ng-container matColumnDef="openBill">
                     <th fxShow="true" fxHide.lt-md="true" mat-header-cell *matHeaderCellDef></th>
                     <td fxShow="true" fxHide.lt-md="true" mat-cell *matCellDef="let bill">
-                        <a [routerLink]="['/bills', bill.billId]">
+                        <a [routerLink]="['/bills', bill.BillID]">
                             <mat-icon aria-hidden="true">open_in_new</mat-icon>
                         </a>
                     </td>

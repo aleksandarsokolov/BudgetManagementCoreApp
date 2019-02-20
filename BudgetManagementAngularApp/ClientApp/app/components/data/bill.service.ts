@@ -33,6 +33,16 @@ export class BillService {
             );
     }
 
+    deleteBill(b: number) {
+        const headerOptions = new HttpHeaders({ 'Content-Type': 'application/json' });
+        return this.http.post<IResponse>(this.baseUrl + 'Bill/DeleteBill', JSON.stringify(b), {
+            headers: headerOptions
+        }).pipe(
+            catchError(this.handleError)
+        );
+
+    }
+
 
   private handleError(err: HttpErrorResponse){
       // in a real world app, we may send the server to some remote logging infrastructure
