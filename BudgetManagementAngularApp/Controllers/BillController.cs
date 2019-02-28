@@ -63,7 +63,82 @@ namespace BudgetManagementAngularApp.Controllers
                                   TypeName = pt.Typename,
                                   Icon = pt.Icon
                               }).Distinct().ToList()
-            }).ToList().OrderByDescending(x => x.Date); ;
+            }).ToList().OrderByDescending(x => x.Date);
+        }
+
+        [HttpGet("[action]")]
+        public BillViewModel GetBillByID(int billid)
+        {
+            using (BudgetAppDbContext db = new BudgetAppDbContext())
+            {
+                BillViewModel bill = db.Bill.Where(x=> x.Billid == billid).Select(x => new BillViewModel
+                {
+                    BillID = x.Billid,
+                    Date = x.Date.ToString(),
+                    Memo = x.Memo,
+                    isVerified = x.Verified,
+                    Products = db.Product.Where(y => y.Billid == x.Billid).Select(y => new ProductViewModel
+                    {
+                        ProductID = y.Productid,
+                        ProductName = y.Name,
+                        ProductType = db.Producttype.Where(z => z.Productypeid == y.Producttypeid).Select(z => new ProductTypeViewModel
+                        {
+                            ProductTypeID = z.Productypeid,
+                            TypeName = z.Typename,
+                            Icon = z.Icon
+                        }).First(),
+                        isPlanned = y.Isplanned,
+                        Amount = y.Amount,
+                        Price = y.Price,
+                        Brand = y.Brand
+                    }).ToList(),
+                    Company = db.Company.Where(z => z.Companyid == x.Companyid).Select(z => new CompanyViewModel
+                    {
+                        CompanyID = z.Companyid,
+                        CompanyName = z.Name,
+                        Location = db.Location.Where(y => y.Locationid == z.Locationid).Select(y => new LocationViewModel
+                        {
+                            LocationID = y.Locationid,
+                            City = y.City,
+                            State = y.State,
+                            Country = y.Country
+                        }).FirstOrDefault()
+
+                    }).FirstOrDefault(),
+                    TotalCount = db.Product.Where(y => y.Billid == x.Billid).Count(),
+                    TotalAmount = db.Product.Where(y => y.Billid == x.Billid).Select(y => y.Price).Sum(),                    
+                    Categories = (from p in db.Product
+                                  join pt in db.Producttype on p.Producttypeid equals pt.Productypeid
+                                  where p.Billid == x.Billid
+                                  select new ProductTypeViewModel
+                                  {
+                                      ProductTypeID = pt.Productypeid,
+                                      TypeName = pt.Typename,
+                                      Icon = pt.Icon
+                                  }).Distinct().ToList()
+                }).FirstOrDefault();
+
+                foreach(ProductTypeViewModel category in bill.Categories)
+                {
+                    category.Products = db.Product.Where(x => x.Billid == billid && x.Producttypeid == category.ProductTypeID).Select(y => new ProductViewModel
+                    {
+                        ProductID = y.Productid,
+                        ProductName = y.Name,
+                        ProductType = db.Producttype.Where(z => z.Productypeid == y.Producttypeid).Select(z => new ProductTypeViewModel
+                        {
+                            ProductTypeID = z.Productypeid,
+                            TypeName = z.Typename,
+                            Icon = z.Icon
+                        }).First(),
+                        isPlanned = y.Isplanned,
+                        Amount = y.Amount,
+                        Price = y.Price,
+                        Brand = y.Brand
+                    }).ToList();
+                }
+
+                return bill;
+            }
         }
 
         [HttpPost("[action]")]

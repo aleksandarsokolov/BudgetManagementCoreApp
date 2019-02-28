@@ -10,7 +10,6 @@ import { IBill, Bill, IResponse } from '../bills/bill';
   providedIn: 'root'
 })
 export class BillService {
-    private billsUrl = '/api/products/bills.json';
     private baseUrl;
 
     constructor(private http: HttpClient, @Inject('BASE_URL') appUrl: string) {
@@ -41,6 +40,17 @@ export class BillService {
             catchError(this.handleError)
         );
 
+    }
+
+    getBillByID(id: number): Observable<IBill> {
+        const headerOptions = new HttpHeaders({ 'Content-Type': 'application/json' });
+        let params = new HttpParams().set("billid", JSON.stringify(id)); //Create new HttpParams
+
+        return this.http.get<IBill>(this.baseUrl + 'Bill/GetBillByID', {
+            params: params
+        }).pipe(
+            catchError(this.handleError)
+        );
     }
 
 

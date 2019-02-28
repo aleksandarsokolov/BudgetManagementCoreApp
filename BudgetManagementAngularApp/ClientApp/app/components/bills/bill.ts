@@ -58,20 +58,33 @@ export class Product {
     public ProductName: string = "";
     public ProductType: ProductType = new ProductType();
     public Brand: string = "";
-    public Amount: number = 0;
+    public Amount: string = "";
     public isPlanned: boolean = false;
     public Price: number = 0;
+
+    constructor(product?: IProduct) {
+        this.ProductID = product && product.ProductID || 0;
+        this.BillID = product && product.BillID || 0;
+        this.ProductName = product && product.ProductName || "";
+        this.ProductType = product && product.ProductType || new ProductType();
+        this.Brand = product && product.Brand || "";
+        this.Amount = product && product.Amount || "";
+        this.isPlanned = product && product.isPlanned || false;
+        this.Price = product && product.Price || 0;
+    }
 }
 
 export class ProductType {
     public ProductTypeID: number = 0;
     public TypeName: string = "";
     public Icon: string = "";
+    public Products: Product[] = [];
 
     constructor() {
         this.ProductTypeID = 0;
         this.TypeName = "";
         this.Icon = "";
+        this.Products = [];
     }
 }
 
@@ -120,7 +133,7 @@ export interface IProduct {
     ProductName: string;
     ProductType: IProductType;
     Brand: string;
-    Amount: number;
+    Amount: string;
     isPlanned: boolean;
     Price: number;
 }
@@ -129,6 +142,7 @@ export interface IProductType {
     ProductTypeID: number;
     TypeName: string;
     Icon: string;
+    Products: IProduct[];
 }
 
 

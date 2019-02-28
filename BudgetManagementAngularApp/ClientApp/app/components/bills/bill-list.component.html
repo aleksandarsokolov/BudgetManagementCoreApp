@@ -219,10 +219,10 @@
                 </ng-container>
 
 
-                <tr mat-header-row *matHeaderRowDef="getDisplayedColumns()"></tr>
+                <tr mat-header-row *matHeaderRowDef="getDisplayedColumns(); sticky: true"></tr>
                 <tr mat-row class="ripple" *matRowDef="let row; columns: getDisplayedColumns();"
                     (click)="selection.toggle(row)"></tr>
-                <tr mat-footer-row *matFooterRowDef="getDisplayedColumns()"></tr>
+                <tr mat-footer-row *matFooterRowDef="getDisplayedColumns(); sticky: true"></tr>
             </table>
         </mat-card>
         <mat-toolbar class="mat-elevation-z8">

@@ -1,41 +1,128 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { IProduct } from './product';
 import { ProductService } from '../data/product.service';
+import { IBill, IProduct, IProductType } from '../bills/bill';
+import { BillService } from '../data/bill.service';
+import { Totals } from '../shared/totals';
+import { MatSort, MatTableDataSource, MatAutocompleteTrigger } from '@angular/material';
 // import { ProductService } from './product.service';
 
 @Component({
-  selector: 'app-product-list',
-  templateUrl: './product-list.component.html',
-  styleUrls: ['./product-list.component.css']
+    selector: 'app-product-list',
+    templateUrl: './product-list.component.html',
+    styleUrls: ['./product-list.component.css']
 })
 
 export class ProductListComponent implements OnInit {
-  products: IProduct[] = [];
-  errorMessage: string = "";
+    showPlanned: boolean = false;
+    bill: IBill;
+    products: IProduct[] = [];
 
-  constructor(private route: ActivatedRoute,
-            private router: Router,
-            private productService: ProductService) { }
+    totals: Totals[] = [];
+    totalCount: number = 0;
+
+    //MatTable info
+    dataSource = new MatTableDataSource<IProduct>([]);
+
+    errorMessage: string = "";
+
+    selection: any;
+    displayColumns = ['isPlanned', 'ProductName', 'Brand', 'Amount', 'ProductType', 'Price', 'editProduct', 'deleteProduct'];
+
+    constructor(private route: ActivatedRoute,
+        private router: Router,
+        private billService: BillService,
+        private productService: ProductService) { }
 
 
-  onBack(): void {
-    this.router.navigate(['/bills']);
-  }
+    onBack(): void {
+        this.router.navigate(['/bills']);
+    }
 
-  ngOnInit() {
+    ngOnInit() {
 
-      if (this.route.snapshot.paramMap.get('id') != null) {
+        if (this.route.snapshot.paramMap.get('BillID') != null) {
 
-          var id = <number>+this.route.snapshot.paramMap.get('id');
+            var BillID = <number>+this.route.snapshot.paramMap.get('BillID');
 
-          this.productService.getProductsByBillID(id).subscribe(
-              products => {
-                  this.products = products;
-              },
-              error => this.errorMessage = <any>error
-          );
-      }
-  }
+            this.billService.getBillByID(BillID).subscribe(
+                bill => {
+                    this.bill = bill;
+                    this.dataSource = new MatTableDataSource<IProduct>(bill.Products);
+                    console.log(bill);
 
+                    this.getTotalCost();
+                    this.getTotalCount();
+                },
+                error => this.errorMessage = <any>error
+            );
+
+
+        }
+    }
+
+
+    showPlannedCheckboxes() {
+        this.showPlanned = !this.showPlanned;
+    }
+
+
+    GetColor(verified: boolean): string {
+        if (verified == true) return 'green'
+        else return 'red';
+    }
+
+
+
+    /** Whether the number of selected elements matches the total number of rows. */
+    isAllSelected() {
+        const numSelected = this.selection.selected.length;
+        const numRows = this.dataSource.data.length;
+        return numSelected === numRows;
+    }
+
+    /** Selects all rows if they are not all selected; otherwise clear selection. */
+    masterToggle() {
+        this.isAllSelected() ?
+            this.selection.clear() :
+            this.dataSource.data.forEach(row => this.selection.select(row));
+    }
+
+
+
+    getTotalCost() {
+        var me = this;
+        me.totals = new Array<Totals>();
+        if (me.dataSource != undefined) {
+            me.totals.push({ currency: '$', amount: 0.00 });
+
+            me.totals[0].amount = me.totals[0].amount + this.bill.TotalAmount;
+        }
+    }
+
+    getTotalCount() {
+        this.totalCount = this.bill.TotalCount;
+
+    }
+
+
+    getDisplayedColumns(): string[] {
+        if (this.showPlanned === true) {
+            if (this.displayColumns.indexOf('verify-chk') == -1) {
+                this.displayColumns.unshift('verify-chk');
+            } else {
+                this.displayColumns.shift();
+            }
+        }
+        return this.displayColumns;
+    }
+
+    EditProduct(productid: number) {
+
+    }
+
+    DeleteProduct(productid: number) {
+
+    }
 }
