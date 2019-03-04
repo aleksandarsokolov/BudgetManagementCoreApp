@@ -3,6 +3,7 @@
         <mat-toolbar-row>
             <span><i class="material-icons">local_mall</i>&nbsp;Products</span>
             <span class="example-spacer"></span>
+
             <mat-slide-toggle (click)="showPlannedCheckboxes()">Planned</mat-slide-toggle>
         </mat-toolbar-row>
     </mat-toolbar>
@@ -33,15 +34,17 @@
                     <mat-icon aria-hidden="true">thumb_up</mat-icon>
                 </th>
                 <td mat-cell *matCellDef="let product">
-                    <mat-icon [style.color]='GetColor(product.isPlanned)' aria-hidden="true">thumb_up</mat-icon>
+                    <mat-icon [style.color]='GetColor(product.isPlanned)' aria-hidden="true">
+                        {{ GetThumb(product.isPlanned) }}</mat-icon>
                 </td>
                 <td mat-footer-cell *matFooterCellDef>  </td>
             </ng-container>
-
             <!-- ProductName Column -->
             <ng-container matColumnDef="ProductName">
                 <th fxShow="true" fxHide.lt-md="true" mat-header-cell *matHeaderCellDef mat-sort-header> Product Name </th>
-                <td fxShow="true" fxHide.lt-md="true" mat-cell *matCellDef="let product"> {{product.ProductName}} </td>
+                <td fxShow="true" fxHide.lt-md="true" mat-cell *matCellDef="let product"> {{product.ProductName
+                        }}
+</td>
                 <td fxShow="true" fxHide.lt-md="true" mat-footer-cell *matFooterCellDef>  </td>
             </ng-container>
 
@@ -56,7 +59,7 @@
             <ng-container matColumnDef="Amount">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Amount </th>
                 <td mat-cell *matCellDef="let product"> {{ product.Amount }} </td>
-                <td mat-footer-cell *matFooterCellDef>  </td>
+                <td fxShow="true" fxHide.lt-sm="true" mat-footer-cell *matFooterCellDef> Total: </td>
             </ng-container>
 
             <!-- Type Column -->
@@ -65,7 +68,7 @@
                 <td fxShow="true" fxHide.lt-sm="true" mat-cell *matCellDef="let product">
                     <pm-icons [types]='[product.ProductType]'></pm-icons>
                 </td>
-                <td fxShow="true" fxHide.lt-sm="true" mat-footer-cell *matFooterCellDef> Total: </td>
+                <td mat-footer-cell *matFooterCellDef> {{ totalCount }} </td>
             </ng-container>
 
             <!-- Price Column -->

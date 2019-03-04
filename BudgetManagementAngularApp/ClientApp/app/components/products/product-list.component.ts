@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ProductService } from '../data/product.service';
-import { IBill, IProduct, IProductType } from '../bills/bill';
+import { IBill, IProduct, IProductType, Product } from '../bills/bill';
 import { BillService } from '../data/bill.service';
 import { Totals } from '../shared/totals';
+import { SelectionModel } from '@angular/cdk/collections';
 import { MatSort, MatTableDataSource, MatAutocompleteTrigger } from '@angular/material';
 // import { ProductService } from './product.service';
 
@@ -16,6 +17,9 @@ import { MatSort, MatTableDataSource, MatAutocompleteTrigger } from '@angular/ma
 
 export class ProductListComponent implements OnInit {
     showPlanned: boolean = false;
+
+    model = new Product();
+
     bill: IBill;
     products: IProduct[] = [];
 
@@ -50,6 +54,7 @@ export class ProductListComponent implements OnInit {
                 bill => {
                     this.bill = bill;
                     this.dataSource = new MatTableDataSource<IProduct>(bill.Products);
+                    this.selection = new SelectionModel<IProduct>(true, bill.Products.filter(prod => prod.isPlanned === true));
                     console.log(bill);
 
                     this.getTotalCost();
@@ -71,6 +76,11 @@ export class ProductListComponent implements OnInit {
     GetColor(verified: boolean): string {
         if (verified == true) return 'green'
         else return 'red';
+    }
+
+    GetThumb(isPlanned: boolean): string {
+        if (isPlanned == true) return 'thumb_up'
+        else return 'thumb_down';
     }
 
 
@@ -103,7 +113,6 @@ export class ProductListComponent implements OnInit {
 
     getTotalCount() {
         this.totalCount = this.bill.TotalCount;
-
     }
 
 
