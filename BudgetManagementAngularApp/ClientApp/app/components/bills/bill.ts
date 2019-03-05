@@ -70,7 +70,7 @@ export class Product {
         this.Brand = product && product.Brand || "";
         this.Amount = product && product.Amount || "";
         this.isPlanned = product && product.isPlanned || false;
-        this.Price = product && product.Price || 0;
+        this.Price = product && product.Price || undefined;
     }
 }
 

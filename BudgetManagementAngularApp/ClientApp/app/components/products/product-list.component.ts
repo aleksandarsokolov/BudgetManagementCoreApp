@@ -1,12 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
-import { ProductService } from '../data/product.service';
+import { ActivatedRoute, Router } from '@angular/router';
 import { IBill, IProduct, IProductType, Product } from '../bills/bill';
 import { BillService } from '../data/bill.service';
 import { Totals } from '../shared/totals';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatSort, MatTableDataSource, MatAutocompleteTrigger } from '@angular/material';
+import * as $ from 'jquery';
+import { Observable } from 'rxjs';
+import { startWith, map } from 'rxjs/operators';
+import { trigger, state, style, transition, animate } from '@angular/animations';
+import { ProductService } from '../data/product.service';
 // import { ProductService } from './product.service';
 
 @Component({
@@ -17,6 +21,8 @@ import { MatSort, MatTableDataSource, MatAutocompleteTrigger } from '@angular/ma
 
 export class ProductListComponent implements OnInit {
     showPlanned: boolean = false;
+    btnAddSaveName: string = "Add";
+    showAddNew: boolean = true;
 
     model = new Product();
 
@@ -26,6 +32,19 @@ export class ProductListComponent implements OnInit {
     totals: Totals[] = [];
     totalCount: number = 0;
 
+    // auto complete option
+    autoCompleteProducts: IProduct[] = [];
+
+    productFormGroup: FormGroup;
+    brandFormGroup: FormGroup;
+
+    optionsProductNames: string[] = [];
+    filteredProductNames!: Observable<string[]>;
+
+    optionsBrands: string[] = [];
+    filteredBrands!: Observable<string[]>;
+
+
     //MatTable info
     dataSource = new MatTableDataSource<IProduct>([]);
 
@@ -33,11 +52,22 @@ export class ProductListComponent implements OnInit {
 
     selection: any;
     displayColumns = ['isPlanned', 'ProductName', 'Brand', 'Amount', 'ProductType', 'Price', 'editProduct', 'deleteProduct'];
+    @ViewChild(MatSort) sort!: MatSort;
 
     constructor(private route: ActivatedRoute,
         private router: Router,
         private billService: BillService,
-        private productService: ProductService) { }
+        private productService: ProductService,
+        private _formBuilder: FormBuilder) {
+
+        this.productFormGroup = this._formBuilder.group({
+            productname: new FormControl()
+        });
+
+        this.brandFormGroup = this._formBuilder.group({
+            brand: new FormControl()
+        });
+    }
 
 
     onBack(): void {
@@ -55,16 +85,62 @@ export class ProductListComponent implements OnInit {
                     this.bill = bill;
                     this.dataSource = new MatTableDataSource<IProduct>(bill.Products);
                     this.selection = new SelectionModel<IProduct>(true, bill.Products.filter(prod => prod.isPlanned === true));
-                    console.log(bill);
+
+                    this.dataSource.sortingDataAccessor = (data: any, sortHeaderId: string): string | number => {
+                        let value = null;
+                        switch (sortHeaderId) {
+                            case 'ProductType':
+                                value = data.ProductType.TypeName;
+                                break;
+                            default:
+                                value = data[sortHeaderId];
+                        }
+                        return this._isNumberValue(value) ? Number(value) : value;
+                    };
+
+                    this.dataSource.sort = this.sort;
 
                     this.getTotalCost();
                     this.getTotalCount();
                 },
                 error => this.errorMessage = <any>error
             );
-
-
+            
         }
+
+
+        //Companies Autocomplete
+        this.filteredProductNames = this.productFormGroup.controls.productname.valueChanges
+            .pipe(
+                startWith(''),
+                map(value => this._filter(value, this.optionsProductNames))
+            );
+
+        //Locations Autocomplete
+        this.filteredBrands = this.brandFormGroup.controls.brand.valueChanges
+            .pipe(
+                startWith(''),
+                map(value => this._filter(value, this.optionsBrands))
+        );
+
+        $(document).ready(function () {
+            // Document ready jquery script
+        });
+
+    }
+
+    _isNumberValue(value: any): boolean {
+        // parseFloat(value) handles most of the cases we're interested in (it treats null, empty string,
+        // and other non-number values as NaN, where Number just uses 0) but it considers the string
+        // '123hello' to be a valid number. Therefore we also check if Number(value) is NaN.
+        return !isNaN(parseFloat(value as any)) && !isNaN(Number(value));
+    }
+
+    //Autocomplete
+    private _filter(value: string, lisToFilter: string[]): string[] {
+        const filterValue = value.toLowerCase();
+
+        return lisToFilter.filter(option => option.toLowerCase().includes(filterValue));
     }
 
 
@@ -129,9 +205,17 @@ export class ProductListComponent implements OnInit {
 
     EditProduct(productid: number) {
 
+        var tempBill = new Product(this.bill.Products.find(prod => prod.ProductID == productid));
+        this.model = tempBill;
+
+        this.btnAddSaveName = "Save";
     }
 
     DeleteProduct(productid: number) {
 
+    }
+    ClearModel() {
+        this.model = new Product();
+        this.btnAddSaveName = "Add";
     }
 }

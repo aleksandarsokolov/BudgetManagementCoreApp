@@ -8,6 +8,86 @@
         </mat-toolbar-row>
     </mat-toolbar>
 
+
+    <!-- Add new Product -->
+    <mat-toolbar fxFlexFill fxLayout="row wrap" [style.visibility]="showAddNew ? 'visible' : 'hidden'">
+
+        <!-- ProductName -->
+        <div fxLayout="column" fxFlexFill fxFlex.gt-xs="60" fxFlex.gt-sm="30" fxFlex.gt-md="25" fxFlex.gt-lg="25" fxFlex.gt-xl="25">
+
+            <div [formGroup]="productFormGroup" class="example-form-field">
+                <mat-form-field>
+                    <input type="text" placeholder="Product Name" formControlName="productname" [(ngModel)]="model.ProductName"
+                           aria-label="ProductName" matInput [matAutocomplete]="auto" #inputAutoComplit (keyup)="0">
+                    <mat-autocomplete #auto="matAutocomplete" md-min-length="0">
+                        <mat-option *ngFor="let comp of filteredProductNames | async" [value]="comp">
+                            {{ comp }}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <button mat-button *ngIf="model.ProductName" matSuffix mat-icon-button aria-label="Clear" (click)="model.ProductName=''">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </mat-form-field>
+            </div>
+        </div>
+
+        <!-- Brand -->
+        <div fxLayout="column" fxFlex.gt-xs="40" fxFlex.gt-sm="30" fxFlex.gt-md="20" fxFlex.gt-lg="20" fxFlex.gt-xl="20">
+
+            <div [formGroup]="brandFormGroup" class="example-form-field">
+                <mat-form-field>
+                    <input type="text" placeholder="Brand" formControlName="brand" [(ngModel)]="model.Brand"
+                           aria-label="Brand" matInput [matAutocomplete]="autoComp" #inputAutoComplit1 (keyup)="0">
+                    <mat-autocomplete #autoComp="matAutocomplete" md-min-length="0">
+                        <mat-option *ngFor="let loc of filteredBrands | async" [value]="loc">
+                            {{ loc }}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <button mat-button *ngIf="model.Brand" matSuffix mat-icon-button aria-label="Clear" (click)="model.Brand=''">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </mat-form-field>
+
+            </div>
+        </div>
+
+
+        <!-- Amount -->
+        <mat-form-field fxLayout="column" fxFlex.gt-xs="30" fxFlex.gt-sm="30" fxFlex.gt-md="10" fxFlex.gt-lg="10" fxFlex.gt-xl="10" class="example-form-field">
+            <input matInput type="text" placeholder="Amount" [(ngModel)]="model.Amount" name="amount">
+            <button mat-button *ngIf="model.Amount" matSuffix mat-icon-button aria-label="Clear" (click)="model.Amount=''">
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-form-field>
+
+        <!-- Type -->
+        <mat-form-field fxLayout="column" fxFlex.gt-xs="30" fxFlex.gt-sm="30" fxFlex.gt-md="10" fxFlex.gt-lg="10" fxFlex.gt-xl="10" class="example-form-field">
+            <input matInput type="text" placeholder="Product Type" [(ngModel)]="model.ProductType.TypeName" name="type">
+            <button mat-button *ngIf="model.ProductType.TypeName" matSuffix mat-icon-button aria-label="Clear" (click)="model.ProductType.TypeName=''">
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-form-field>
+
+        <!-- Price -->
+        <mat-form-field fxLayout="column" fxFlex.gt-xs="20" fxFlex.gt-sm="20" fxFlex.gt-md="5" fxFlex.gt-lg="5" fxFlex.gt-xl="5" class="example-form-field">
+            <input matInput type="text" placeholder="Price" [(ngModel)]="model.Price" name="price">
+            <button mat-button *ngIf="model.Price" matSuffix mat-icon-button aria-label="Clear" (click)="model.Price=''">
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-form-field>&nbsp;&nbsp;&nbsp;
+
+        <!-- Save Button -->
+        <div fxLayout="column" fxFlex.gt-xs="45" fxFlex.gt-sm="10" fxFlex.gt-md="10" fxFlex.gt-lg="10" fxFlex.gt-xl="10">
+            <button mat-raised-button [disabled]="!model.ProductName || !model.Amount || !model.ProductType || !model.Price" color="primary" (click)="AddSaveBill()">{{ btnAddSaveName }}</button>
+        </div>
+        &nbsp;
+        <!-- Clear Button -->
+        <div fxLayout="column" fxFlex.gt-xs="45" fxFlex.gt-sm="10" fxFlex.gt-md="10" fxFlex.gt-lg="10" fxFlex.gt-xl="10">
+            <button mat-raised-button *ngIf="model.ProductName || model.Amount || model.ProductType || model.Price" color="warn" (click)="ClearModel()">Clear</button>
+        </div>
+
+    </mat-toolbar>
+
     <mat-card fxFlexFill fxLayout="row wrap" style="padding:0px;">
         <table mat-table fxFlexFill [dataSource]="dataSource" matSort class="mat-elevation-z2">
             <!-- Planned Column -->
@@ -35,16 +115,18 @@
                 </th>
                 <td mat-cell *matCellDef="let product">
                     <mat-icon [style.color]='GetColor(product.isPlanned)' aria-hidden="true">
-                        {{ GetThumb(product.isPlanned) }}</mat-icon>
+                        {{ GetThumb(product.isPlanned) }}
+                    </mat-icon>
                 </td>
                 <td mat-footer-cell *matFooterCellDef>  </td>
             </ng-container>
+
             <!-- ProductName Column -->
             <ng-container matColumnDef="ProductName">
                 <th fxShow="true" fxHide.lt-md="true" mat-header-cell *matHeaderCellDef mat-sort-header> Product Name </th>
-                <td fxShow="true" fxHide.lt-md="true" mat-cell *matCellDef="let product"> {{product.ProductName
-                        }}
-</td>
+                <td fxShow="true" fxHide.lt-md="true" mat-cell *matCellDef="let product">
+                    {{ product.ProductName }}
+                </td>
                 <td fxShow="true" fxHide.lt-md="true" mat-footer-cell *matFooterCellDef>  </td>
             </ng-container>
 

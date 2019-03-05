@@ -1,0 +1,62 @@
+/* Ripple effect START */
+.ripple {
+    background-position: center;
+    transition: background 0.8s;
+}
+
+    .ripple:hover {
+        background: #ffffffd5 radial-gradient(circle, transparent 1%, #ffffffd5 1%) center/15000%;
+    }
+
+    .ripple:active {
+        background-color: #ff408052;
+        background-size: 100%;
+        transition: background 0s;
+    }
+
+.example-form {
+    /* min-width: 150px;
+    max-width: 300px; */
+}
+
+.example-datepicker-form {
+    /* min-width: 100px;
+    max-width: 150px; */
+    margin-right: 10px;
+}
+
+.example-form-field {
+    margin-right: 10px;
+}
+
+.add_new_bill {
+    position: fixed;
+    bottom: 3em;
+    right: 3em;
+}
+/* Ripple effect END */
+
+table {
+    width: 100%;
+}
+
+th.mat-sort-header-sorted {
+    color: black;
+}
+
+.mat-form-field {
+    font-size: 14px;
+    width: 100%;
+}
+
+tr.mat-footer-row {
+    font-weight: bold;
+}
+
+.example-icon {
+    padding: 0 14px;
+}
+
+.example-spacer {
+    flex: 1 1 auto;
+}
