@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { IBill, IProduct, IProductType, Product } from '../bills/bill';
+import { IBill, IProduct, IProductType, Product, ProductType } from '../bills/bill';
 import { BillService } from '../data/bill.service';
 import { Totals } from '../shared/totals';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -37,6 +37,7 @@ export class ProductListComponent implements OnInit {
 
     productFormGroup: FormGroup;
     brandFormGroup: FormGroup;
+    productTypeFormGroup: FormGroup;
 
     optionsProductNames: string[] = [];
     filteredProductNames!: Observable<string[]>;
@@ -44,6 +45,8 @@ export class ProductListComponent implements OnInit {
     optionsBrands: string[] = [];
     filteredBrands!: Observable<string[]>;
 
+    optionsProductTypeNames: string[] = [];
+    filteredProductTypeNames!: Observable<string[]>;
 
     //MatTable info
     dataSource = new MatTableDataSource<IProduct>([]);
@@ -66,6 +69,10 @@ export class ProductListComponent implements OnInit {
 
         this.brandFormGroup = this._formBuilder.group({
             brand: new FormControl()
+        });
+
+        this.productTypeFormGroup = this._formBuilder.group({
+            producttypename: new FormControl()
         });
     }
 
@@ -108,20 +115,29 @@ export class ProductListComponent implements OnInit {
             
         }
 
+        this.GetProductBrands();
+        this.GetProductTypes();
 
-        //Companies Autocomplete
+        //Product Names Autocomplete
         this.filteredProductNames = this.productFormGroup.controls.productname.valueChanges
             .pipe(
                 startWith(''),
                 map(value => this._filter(value, this.optionsProductNames))
             );
 
-        //Locations Autocomplete
+        //Brands Autocomplete
         this.filteredBrands = this.brandFormGroup.controls.brand.valueChanges
             .pipe(
                 startWith(''),
                 map(value => this._filter(value, this.optionsBrands))
         );
+
+        //Product Types Autocomplete
+        this.filteredProductTypeNames = this.productTypeFormGroup.controls.producttypename.valueChanges
+            .pipe(
+                startWith(''),
+                map(value => this._filter(value, this.optionsProductTypeNames))
+            );
 
         $(document).ready(function () {
             // Document ready jquery script
@@ -217,5 +233,23 @@ export class ProductListComponent implements OnInit {
     ClearModel() {
         this.model = new Product();
         this.btnAddSaveName = "Add";
+    }
+
+    GetProductBrands() {
+        this.productService.getProductBrands().subscribe(
+            results => {
+                this.optionsBrands = results;
+            },
+            error => this.errorMessage = <any>error
+        );
+    }
+
+    GetProductTypes() {
+        this.productService.getProductTypes().subscribe(
+            results => {
+                this.optionsProductTypeNames = results.map(producttype => producttype.TypeName);
+            },
+            error => this.errorMessage = <any>error
+        );
     }
 }

@@ -1,4 +1,6 @@
-export interface IProductType {
-    id: number;
-    name: string;
-}
+//export interface IProductType {
+//    TypeName: any;
+//    TypeName: any;
+//    id: number;
+//    name: string;
+//}

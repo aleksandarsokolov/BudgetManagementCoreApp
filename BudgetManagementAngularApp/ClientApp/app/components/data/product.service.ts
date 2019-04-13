@@ -1,8 +1,9 @@
 import { Injectable, Inject } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, tap, map } from 'rxjs/operators';
 import { IProduct } from '../products/product';
+import { Product, IResponse, IProductType } from '../bills/bill';
 
 @Injectable({
   providedIn: 'root'
@@ -25,8 +26,17 @@ export class ProductService {
     }
 
 
+    getProductTypes(): Observable<IProductType[]> {
+        return this.http.get<IProductType[]>(this.baseUrl + 'Product/GetProductTypes').pipe(
+            catchError(this.handleError)
+        );
+    }
 
-
+    getProductBrands(): Observable<string[]> {
+        return this.http.get<string[]>(this.baseUrl + 'Product/GetProductBrands').pipe(
+            catchError(this.handleError)
+        );
+    }
 
     getProductsByBillID(id: number): Observable<IProduct[]> {
         console.log('BillID: ' + id);
@@ -44,6 +54,16 @@ export class ProductService {
         )
     }
 
+
+    saveProduct(p: Product) {
+        const prod = JSON.stringify(p);
+        const headerOptions = new HttpHeaders({ 'Content-Type': 'application/json' });
+        return this.http.post<IResponse>(this.baseUrl + 'Product/SaveProduct', prod, {
+            headers: headerOptions
+        }).pipe(
+            catchError(this.handleError)
+        );
+    }
 
     private handleError(err: HttpErrorResponse) {
         // in a real world app, we may send the server to some remote logging infrastructure
