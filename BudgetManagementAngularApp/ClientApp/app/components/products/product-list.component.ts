@@ -23,6 +23,7 @@ export class ProductListComponent implements OnInit {
     showPlanned: boolean = false;
     btnAddSaveName: string = "Add";
     showAddNew: boolean = true;
+    errorMessage: string = "";
 
     model = new Product();
 
@@ -39,6 +40,9 @@ export class ProductListComponent implements OnInit {
     brandFormGroup: FormGroup;
     productTypeFormGroup: FormGroup;
 
+    //MatTable info
+    dataSource = new MatTableDataSource<IProduct>([]);
+
     optionsProductNames: string[] = [];
     filteredProductNames!: Observable<string[]>;
 
@@ -47,11 +51,6 @@ export class ProductListComponent implements OnInit {
 
     optionsProductTypeNames: string[] = [];
     filteredProductTypeNames!: Observable<string[]>;
-
-    //MatTable info
-    dataSource = new MatTableDataSource<IProduct>([]);
-
-    errorMessage: string = "";
 
     selection: any;
     displayColumns = ['isPlanned', 'ProductName', 'Brand', 'Amount', 'ProductType', 'Price', 'editProduct', 'deleteProduct'];
@@ -247,7 +246,7 @@ export class ProductListComponent implements OnInit {
     GetProductTypes() {
         this.productService.getProductTypes().subscribe(
             results => {
-                this.optionsProductTypeNames = results.map(producttype => producttype.TypeName);
+                this.optionsProductTypeNames = results.map(producttype => producttype.TypeName).sort();
             },
             error => this.errorMessage = <any>error
         );

@@ -37,8 +37,8 @@
             <div [formGroup]="brandFormGroup" class="example-form-field">
                 <mat-form-field>
                     <input type="text" placeholder="Brand" formControlName="brand" [(ngModel)]="model.Brand"
-                           aria-label="Brand" matInput [matAutocomplete]="autoComp" #inputAutoComplit1 (keyup)="0">
-                    <mat-autocomplete #autoComp="matAutocomplete" md-min-length="0">
+                           aria-label="Brand" matInput [matAutocomplete]="autoComp1" #inputAutoComplit1 (keyup)="0">
+                    <mat-autocomplete #autoComp1="matAutocomplete" md-min-length="0">
                         <mat-option *ngFor="let loc of filteredBrands | async" [value]="loc">
                             {{ loc }}
                         </mat-option>
@@ -74,7 +74,7 @@
             <div [formGroup]="productTypeFormGroup" class="example-form-field">
                 <mat-form-field>
                     <input type="text" placeholder="Product Type" formControlName="producttypename" [(ngModel)]="model.ProductType.TypeName"
-                           aria-label="Product Type" matInput [matAutocomplete]="autoComp" #inputAutoComplit1 (keyup)="0">
+                           aria-label="Product Type" matInput [matAutocomplete]="autoComp" #inputAutoComplit2 (keyup)="0">
                     <mat-autocomplete #autoComp="matAutocomplete" md-min-length="0">
                         <mat-option *ngFor="let loc of filteredProductTypeNames | async" [value]="loc">
                             {{ loc }}

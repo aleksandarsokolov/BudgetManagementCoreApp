@@ -42,6 +42,7 @@ namespace BudgetManagementAngularApp.Controllers
             {
                 return (from p in db.Product 
                         orderby p.Brand
+                        where p.Brand != ""
                         select p.Brand).Distinct().ToList();
             }
             catch (Exception e)
