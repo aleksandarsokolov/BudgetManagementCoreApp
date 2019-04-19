@@ -29,6 +29,7 @@ export class ProductListComponent implements OnInit {
 
     bill: IBill;
     products: IProduct[] = [];
+    productTypes: IProductType[] = [];
 
     totals: Totals[] = [];
     totalCount: number = 0;
@@ -82,37 +83,7 @@ export class ProductListComponent implements OnInit {
 
     ngOnInit() {
 
-        if (this.route.snapshot.paramMap.get('BillID') != null) {
-
-            var BillID = <number>+this.route.snapshot.paramMap.get('BillID');
-
-            this.billService.getBillByID(BillID).subscribe(
-                bill => {
-                    this.bill = bill;
-                    this.dataSource = new MatTableDataSource<IProduct>(bill.Products);
-                    this.selection = new SelectionModel<IProduct>(true, bill.Products.filter(prod => prod.isPlanned === true));
-
-                    this.dataSource.sortingDataAccessor = (data: any, sortHeaderId: string): string | number => {
-                        let value = null;
-                        switch (sortHeaderId) {
-                            case 'ProductType':
-                                value = data.ProductType.TypeName;
-                                break;
-                            default:
-                                value = data[sortHeaderId];
-                        }
-                        return this._isNumberValue(value) ? Number(value) : value;
-                    };
-
-                    this.dataSource.sort = this.sort;
-
-                    this.getTotalCost();
-                    this.getTotalCount();
-                },
-                error => this.errorMessage = <any>error
-            );
-            
-        }
+        this.GetBill();
 
         this.GetProductBrands();
         this.GetProductTypes();
@@ -190,7 +161,41 @@ export class ProductListComponent implements OnInit {
             this.dataSource.data.forEach(row => this.selection.select(row));
     }
 
+    GetBill() {
+        if (this.route.snapshot.paramMap.get('BillID') != null) {
 
+            var BillID = <number>+this.route.snapshot.paramMap.get('BillID');
+
+            this.model.BillID = BillID;
+
+            this.billService.getBillByID(BillID).subscribe(
+                bill => {
+                    this.bill = bill;
+                    this.dataSource = new MatTableDataSource<IProduct>(bill.Products);
+                    this.selection = new SelectionModel<IProduct>(true, bill.Products.filter(prod => prod.isPlanned === true));
+
+                    this.dataSource.sortingDataAccessor = (data: any, sortHeaderId: string): string | number => {
+                        let value = null;
+                        switch (sortHeaderId) {
+                            case 'ProductType':
+                                value = data.ProductType.TypeName;
+                                break;
+                            default:
+                                value = data[sortHeaderId];
+                        }
+                        return this._isNumberValue(value) ? Number(value) : value;
+                    };
+
+                    this.dataSource.sort = this.sort;
+
+                    this.getTotalCost();
+                    this.getTotalCount();
+                },
+                error => this.errorMessage = <any>error
+            );
+
+        }
+    }
 
     getTotalCost() {
         var me = this;
@@ -216,6 +221,28 @@ export class ProductListComponent implements OnInit {
             }
         }
         return this.displayColumns;
+    }
+
+    AddSaveProduct() {
+        if (this.model.ProductID == 0) {
+            let prodType: IProductType[];
+            prodType = this.productTypes.filter(prod => prod.TypeName == this.model.ProductType.TypeName);
+            if (prodType.length != 0) {
+                this.model.ProductType.ProductTypeID = prodType[0].ProductTypeID;
+            }
+        }
+
+        this.productService.saveProduct(this.model).subscribe((creationstatus) => {
+            // do necessary staff with creation status
+            console.log(creationstatus);
+            this.ClearModel();
+            this.GetBill();
+            this.GetProductBrands();
+            this.GetProductTypes();
+        }, (error) => {
+            // handle the error here
+            console.log(error);
+        });
     }
 
     EditProduct(productid: number) {
@@ -246,6 +273,7 @@ export class ProductListComponent implements OnInit {
     GetProductTypes() {
         this.productService.getProductTypes().subscribe(
             results => {
+                this.productTypes = results;
                 this.optionsProductTypeNames = results.map(producttype => producttype.TypeName).sort();
             },
             error => this.errorMessage = <any>error
