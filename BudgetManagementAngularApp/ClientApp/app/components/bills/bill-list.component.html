@@ -79,14 +79,14 @@
     </mat-toolbar>
     
     <mat-toolbar  fxLayoutGap fxLayout="row wrap" >
-        <mat-form-field  fxLayout="column" fxFlex="30" class="example-datepicker-form">
-            <input matInput [matDatepicker]="pickerStart" placeholder="Start date">
+        <mat-form-field  fxLayout="column"  fxFlex.gt-xs="25" fxFlex.gt-sm="20" fxFlex.gt-md="10" fxFlex.gt-lg="10" fxFlex.gt-xl="10" class="example-datepicker-form">
+            <input matInput [matDatepicker]="pickerStart" placeholder="Start date" [formControl] ="startDate" (dateInput)="setFirstDate($event)" (dateChange)="setFirstDate($event)">
             <mat-datepicker-toggle matSuffix [for]="pickerStart"></mat-datepicker-toggle>
             <mat-datepicker touchUi #pickerStart></mat-datepicker>
         </mat-form-field>
         <!-- <mat-divider [inset]="true"></mat-divider> -->
-        <mat-form-field  fxLayout="column" fxFlex="30" class="example-datepicker-form">
-                <input matInput [matDatepicker]="pickerEnd" placeholder="End date">
+        <mat-form-field  fxLayout="column"  fxFlex.gt-xs="25" fxFlex.gt-sm="20" fxFlex.gt-md="10" fxFlex.gt-lg="10" fxFlex.gt-xl="10" class="example-datepicker-form">
+                <input matInput [matDatepicker]="pickerEnd" placeholder="End date" [formControl] ="endDate" (dateInput)="setLastDate($event)" (dateChange)="setLastDate($event)">
                 <mat-datepicker-toggle matSuffix [for]="pickerEnd"></mat-datepicker-toggle>
                 <mat-datepicker touchUi #pickerEnd></mat-datepicker>
         </mat-form-field>

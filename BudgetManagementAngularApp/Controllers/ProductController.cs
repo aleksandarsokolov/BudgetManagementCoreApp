@@ -98,7 +98,6 @@ namespace BudgetManagementAngularApp.Controllers
                 {
                     Product newProd = new Product
                     {
-                        Productid = product.ProductID,
                         Billid = product.BillID,
                         Producttypeid = product.ProductType.ProductTypeID,
                         Name = product.ProductName,

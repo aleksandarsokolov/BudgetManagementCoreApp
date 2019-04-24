@@ -65,6 +65,15 @@ export class ProductService {
         );
     }
 
+    deleteProduct(p: number) {
+        const headerOptions = new HttpHeaders({ 'Content-Type': 'application/json' });
+        return this.http.post<IResponse>(this.baseUrl + 'Product/DeleteProduct', JSON.stringify(p), {
+            headers: headerOptions
+        }).pipe(
+            catchError(this.handleError)
+        );
+    }
+
     private handleError(err: HttpErrorResponse) {
         // in a real world app, we may send the server to some remote logging infrastructure
         // instead of just logging it to the console

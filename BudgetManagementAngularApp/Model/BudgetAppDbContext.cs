@@ -64,7 +64,7 @@ namespace BudgetManagementAngularApp.Model
             {
                 entity.Property(e => e.Productid).ForNpgsqlUseSequenceHiLo("product_productid_seq");
 
-                entity.Property(e => e.Isplanned).HasDefaultValueSql("true");
+                //entity.Property(e => e.Isplanned).HasDefaultValueSql("true");
             });
 
             modelBuilder.Entity<Producttype>(entity =>

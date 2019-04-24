@@ -6,6 +6,7 @@ import { BillService } from '../data/bill.service';
 import { Totals } from '../shared/totals';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatSort, MatTableDataSource, MatAutocompleteTrigger } from '@angular/material';
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import * as $ from 'jquery';
 import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
@@ -24,6 +25,11 @@ export class BillListComponent implements OnInit {
     showVerify: boolean = false;
     showAddNew: boolean = true;
     errorMessage: string = "";
+
+    firstDate: Date;
+    lastDate: Date;
+    startDate: FormControl;
+    endDate: FormControl;
 
     btnAddSaveName: string = "Add";
 
@@ -69,7 +75,15 @@ export class BillListComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.GetBills();
+
+        var date = new Date(), y = date.getFullYear(), m = date.getMonth();
+        this.firstDate = new Date(y, m, 1);
+        this.lastDate = new Date(y, m + 1, 0);
+
+        this.startDate = new FormControl(this.firstDate);
+        this.endDate = new FormControl(this.lastDate);
+
+        this.GetBills(this.firstDate, this.lastDate);
 
         this.GetCompanies();
 
@@ -91,6 +105,17 @@ export class BillListComponent implements OnInit {
         $(document).ready(function () {
             // Document ready jquery script
         });
+    }
+
+    setFirstDate(event: MatDatepickerInputEvent<Date>) {
+        this.firstDate = event.value;
+        console.log(`Start Date: ${event.value}`);
+        this.GetBills(this.firstDate, this.lastDate);
+    }
+    setLastDate(event: MatDatepickerInputEvent<Date>) {
+        this.lastDate = event.value;
+        console.log(`End Date: ${event.value}`);
+        this.GetBills(this.firstDate, this.lastDate);
     }
 
     //Companies Autocomplete
@@ -187,9 +212,11 @@ export class BillListComponent implements OnInit {
             this.dataSource.data.forEach(row => this.selection.select(row));
     }
 
-    GetBills() {
+    GetBills(startDate: Date, endDate: Date) {
 
-        this.billService.getBills().subscribe(
+        console.log(`GetBills with Start Date: ${startDate} and End Date: ${endDate}`);
+
+        this.billService.getBills(startDate, endDate).subscribe(
             bills => {
                 this.bills = bills;
                 this.dataSource = new MatTableDataSource<IBill>(bills);
@@ -267,7 +294,7 @@ export class BillListComponent implements OnInit {
             // do necessary staff with creation status
             console.log(creationstatus);
             this.ClearModel();
-            this.GetBills();
+            this.GetBills(this.firstDate, this.lastDate);
             this.GetCompanies();
         }, (error) => {
             // handle the error here
@@ -293,7 +320,7 @@ export class BillListComponent implements OnInit {
         this.billService.deleteBill(billid).subscribe((creationstatus) => {
             // do necessary staff with creation status
             console.log(creationstatus);
-            this.GetBills();
+            this.GetBills(this.firstDate, this.lastDate);
             this.GetCompanies();
         }, (error) => {
             // handle the error here

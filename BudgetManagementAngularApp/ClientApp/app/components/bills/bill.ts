@@ -59,7 +59,7 @@ export class Product {
     public ProductType: ProductType = new ProductType();
     public Brand: string = "";
     public Amount: string = "";
-    public isPlanned: boolean = false;
+    public isPlanned: boolean = true;
     public Price: number = 0;
 
     constructor(product?: IProduct) {
@@ -69,7 +69,7 @@ export class Product {
         this.ProductType = product && product.ProductType || new ProductType();
         this.Brand = product && product.Brand || "";
         this.Amount = product && product.Amount || "";
-        this.isPlanned = product && product.isPlanned || false;
+        this.isPlanned = product && product.isPlanned || true;
         this.Price = product && product.Price || undefined;
     }
 }

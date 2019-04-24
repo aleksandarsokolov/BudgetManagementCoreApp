@@ -14,10 +14,13 @@ namespace BudgetManagementAngularApp.Controllers
     {
 
         [HttpGet("[action]")]
-        public IEnumerable<BillViewModel> GetBills()
+        public IEnumerable<BillViewModel> GetBills(long startDate, long endDate)
         {
             BudgetAppDbContext db = new BudgetAppDbContext();
-            return db.Bill.Select(x => new BillViewModel
+            List<long> listticks = db.Bill.Select(x => x.Date.Ticks).ToList();
+
+
+            return db.Bill.Where(x => startDate <= x.Date.Ticks && x.Date.Ticks <= endDate).Select(x => new BillViewModel
             {
                 BillID = x.Billid,
                 Date = x.Date.ToString(),

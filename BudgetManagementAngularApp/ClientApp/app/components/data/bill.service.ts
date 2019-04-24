@@ -16,8 +16,16 @@ export class BillService {
         this.baseUrl = appUrl + '/api/';
     }
 
-    getBills(): Observable<IBill[]> {
-        return this.http.get<IBill[]>(this.baseUrl + 'Bill/GetBills').pipe(
+    getBills(startDate: Date, endDate: Date): Observable<IBill[]> {
+        const begin = ((startDate.getTime() * 10000) + 621355968000000000);
+        const end = ((endDate.getTime() * 10000) + 621355968000000000);
+
+        const headerOptions = new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' });
+        let params = new HttpParams().set("startDate", JSON.stringify(begin)).set("endDate", JSON.stringify(end)); 
+
+        return this.http.get<IBill[]>(this.baseUrl + 'Bill/GetBills', {
+            params: params
+        }).pipe(
             catchError(this.handleError)
         );
     }
