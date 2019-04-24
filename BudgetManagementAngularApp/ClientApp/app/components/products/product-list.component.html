@@ -134,7 +134,7 @@
                     <mat-icon aria-hidden="true">thumbs_up_down</mat-icon>
                 </th>
                 <td mat-cell *matCellDef="let product">
-                    <mat-icon [style.color]='GetColor(product.isPlanned)' aria-hidden="true">
+                    <mat-icon (click)='togglePlanned(product.ProductID)' [style.color]='GetColor(product.isPlanned)' aria-hidden="true">
                         {{ GetThumb(product.isPlanned) }}
                     </mat-icon>
                 </td>

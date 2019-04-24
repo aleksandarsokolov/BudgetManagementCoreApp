@@ -83,6 +83,7 @@ namespace BudgetManagementAngularApp.Controllers
                     Products = db.Product.Where(y => y.Billid == x.Billid).Select(y => new ProductViewModel
                     {
                         ProductID = y.Productid,
+                        BillID = y.Billid,
                         ProductName = y.Name,
                         ProductType = db.Producttype.Where(z => z.Productypeid == y.Producttypeid).Select(z => new ProductTypeViewModel
                         {

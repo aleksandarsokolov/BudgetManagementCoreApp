@@ -158,7 +158,7 @@ export class ProductListComponent implements OnInit {
     masterToggle() {
         this.isAllSelected() ?
             this.selection.clear() :
-            this.dataSource.data.forEach(row => this.selection.select(row));
+            this.dataSource.data.forEach((row) => { this.selection.select(row); console.log(row); });
     }
 
     GetBill() {
@@ -221,6 +221,21 @@ export class ProductListComponent implements OnInit {
             }
         }
         return this.displayColumns;
+    }
+
+    togglePlanned(productid: number) {
+        let prod: IProduct[];
+        prod = this.bill.Products.filter(prod => prod.ProductID == productid);
+        prod[0].isPlanned = !prod[0].isPlanned;
+
+        this.productService.saveProduct(prod[0]).subscribe((creationstatus) => {
+            // do necessary staff with creation status
+            console.log(creationstatus);
+            this.dataSource = new MatTableDataSource<IProduct>(this.bill.Products);
+        }, (error) => {
+            // handle the error here
+            console.log(error);
+        });
     }
 
     AddSaveProduct() {
