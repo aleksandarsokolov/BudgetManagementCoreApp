@@ -289,6 +289,28 @@ namespace BudgetManagementAngularApp.Controllers
         }
 
         [HttpPost("[action]")]
+        public IActionResult VerifyBills([FromBody] TwoArrays lists)
+        {
+            try
+            {
+                using (BudgetAppDbContext db = new BudgetAppDbContext())
+                {
+                    var billsChecked = db.Bill.Where(b => lists.Checked.Contains(b.Billid)).ToList();
+                    billsChecked.ForEach(b => b.Verified = true);
+                    var billsUnChecked = db.Bill.Where(b => lists.unChecked.Contains(b.Billid)).ToList();
+                    billsUnChecked.ForEach(b => b.Verified = false);
+                    db.SaveChanges();
+                }
+
+                return Json(new ResponseViewModel() { status = true, message = "Bills have been saved!" });
+            }
+            catch (Exception e)
+            {
+                return Json(new ResponseViewModel() { status = false, message = e.Message });
+            }
+        }
+
+        [HttpPost("[action]")]
         public IActionResult DeleteBill([FromBody]int billid)
         {
             try
@@ -315,5 +337,11 @@ namespace BudgetManagementAngularApp.Controllers
             }
         }
 
+    }
+
+    public class TwoArrays
+    {
+        public int[] Checked { get; set; }
+        public int[] unChecked { get; set; }
     }
 }

@@ -11,5 +11,7 @@ namespace BudgetManagementAngularApp.ViewModel
         public string TypeName;
         public string Icon;
         public List<ProductViewModel> Products { get; set; }
+        public IEnumerable<ProductTypeViewModel> ChildProductTypes { get; set; }
+        public int ParentTypeID;
     }
 }

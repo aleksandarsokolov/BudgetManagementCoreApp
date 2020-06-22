@@ -79,12 +79,16 @@ export class ProductType {
     public TypeName: string = "";
     public Icon: string = "";
     public Products: Product[] = [];
+    public ChildProductTypes: ProductType[] = [];
+    public ParentTypeID: number= 0;
 
     constructor() {
         this.ProductTypeID = 0;
         this.TypeName = "";
         this.Icon = "";
         this.Products = [];
+        this.ChildProductTypes = [];
+        this.ParentTypeID = 0;
     }
 }
 
@@ -143,6 +147,8 @@ export interface IProductType {
     TypeName: string;
     Icon: string;
     Products: IProduct[];
+    ChildProductTypes: IProductType[];
+    ParentTypeID: number;
 }
 
 

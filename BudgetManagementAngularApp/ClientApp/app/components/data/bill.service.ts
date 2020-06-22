@@ -50,6 +50,22 @@ export class BillService {
 
     }
 
+    verifyBills(check: number[], uncheck: number[]) {
+        const headerOptions = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+        let params = {
+            Checked: check,
+            unChecked: uncheck
+        };
+        
+        return this.http.post<IResponse>(this.baseUrl + 'Bill/VerifyBills', JSON.stringify(params), {
+            headers: headerOptions
+            
+        }).pipe(
+            catchError(this.handleError)
+        );
+    }
+
     getBillByID(id: number): Observable<IBill> {
         const headerOptions = new HttpHeaders({ 'Content-Type': 'application/json' });
         let params = new HttpParams().set("billid", JSON.stringify(id)); //Create new HttpParams

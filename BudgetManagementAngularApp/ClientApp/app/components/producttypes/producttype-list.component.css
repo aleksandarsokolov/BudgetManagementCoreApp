@@ -1,0 +1,26 @@
+﻿.pt-buttom {
+    display:none;
+}
+
+.pt-node {
+    cursor:auto;
+}
+
+.pt-node:hover .pt-buttom {
+    display:block;
+}
+
+.example-sidenav-content {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.example-sidenav {
+    padding: 20px;
+}
+
+mwlResizable {
+    box-sizing: border-box;
+}

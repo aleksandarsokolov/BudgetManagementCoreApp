@@ -90,7 +90,7 @@
                 <mat-datepicker-toggle matSuffix [for]="pickerEnd"></mat-datepicker-toggle>
                 <mat-datepicker touchUi #pickerEnd></mat-datepicker>
         </mat-form-field>
-        <!-- <span class="example-spacer"></span> -->
+        <span class="example-spacer"></span> 
         <mat-form-field  fxLayout="column" fxFlex="30" class="example-form">
                 <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
                 <mat-icon matSuffix>search</mat-icon>
@@ -200,7 +200,7 @@
                 <ng-container matColumnDef="editBill">
                     <th fxShow="true" mat-header-cell *matHeaderCellDef></th>
                     <td fxShow="true" mat-cell *matCellDef="let bill">
-                        <button mat-icon-button color="primary" (click)="EditBill(bill.BillID)">
+                        <button mat-icon-button color="primary" (click)="EditBill(bill.BillID)" [disabled]='bill.isVerified'>
                             <mat-icon aria-label="Edit button">edit</mat-icon>
                         </button>
                     </td>
@@ -211,7 +211,7 @@
                 <ng-container matColumnDef="deleteBill">
                     <th fxShow="true" mat-header-cell *matHeaderCellDef></th>
                     <td fxShow="true" mat-cell *matCellDef="let bill">
-                        <button mat-icon-button color="primary" (click)="DeleteBill(bill.BillID)">
+                        <button mat-icon-button color="primary" (click)="DeleteBill(bill.BillID)" [disabled]='bill.isVerified'>
                             <mat-icon aria-label="Delete button">delete</mat-icon>
                         </button>
                     </td>
@@ -228,7 +228,7 @@
         <mat-toolbar class="mat-elevation-z8">
                 
             <div class="button-row">
-                <button mat-icon-button color="primary" [disabled]='!showVerify'
+                <button mat-icon-button color="primary" (click)="VerifyBills()" [disabled]='!showVerify'
                     matTooltip="Verify" matTooltipPosition='below'>
                     <mat-icon aria-label="Verify button">check_circle</mat-icon>
                 </button>

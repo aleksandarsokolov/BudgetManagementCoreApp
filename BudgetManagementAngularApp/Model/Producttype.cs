@@ -18,5 +18,7 @@ namespace BudgetManagementAngularApp.Model
         public string Icon { get; set; }
         [Column("utctimestamp", TypeName = "timestamp with time zone")]
         public DateTime? Utctimestamp { get; set; }
+        [Column("parentid")]
+        public int Parentid { get; set; }
     }
 }

@@ -12,6 +12,7 @@ import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { CompanyService } from '../data/company.service';
+import { SharedDataService } from '../data/shareddata.service';
 // import { BillService } from './bill.service';
 
 @Component({
@@ -63,6 +64,7 @@ export class BillListComponent implements OnInit {
         private router: Router,
         private billService: BillService,
         private companyService: CompanyService,
+        private shareddataService: SharedDataService,
         private _formBuilder: FormBuilder) {
 
         this.companyFormGroup = this._formBuilder.group({
@@ -76,9 +78,16 @@ export class BillListComponent implements OnInit {
 
     ngOnInit() {
 
-        var date = new Date(), y = date.getFullYear(), m = date.getMonth();
-        this.firstDate = new Date(y, m, 1);
-        this.lastDate = new Date(y, m + 1, 0);
+        if (this.shareddataService.firstDate != null) {
+            this.firstDate = new Date(this.shareddataService.firstDate);
+            this.lastDate = new Date(this.shareddataService.lastDate);
+        } else {
+            var date = new Date(), y = date.getFullYear(), m = date.getMonth();
+            this.firstDate = new Date(y, m, 1);
+            this.lastDate = new Date(y, m + 1, 0);
+            this.shareddataService.firstDate = this.firstDate;
+            this.shareddataService.lastDate = this.lastDate;
+        }
 
         this.startDate = new FormControl(this.firstDate);
         this.endDate = new FormControl(this.lastDate);
@@ -109,11 +118,13 @@ export class BillListComponent implements OnInit {
 
     setFirstDate(event: MatDatepickerInputEvent<Date>) {
         this.firstDate = event.value;
+        this.shareddataService.firstDate = this.firstDate;
         console.log(`Start Date: ${event.value}`);
         this.GetBills(this.firstDate, this.lastDate);
     }
     setLastDate(event: MatDatepickerInputEvent<Date>) {
         this.lastDate = event.value;
+        this.shareddataService.lastDate = this.lastDate;
         console.log(`End Date: ${event.value}`);
         this.GetBills(this.firstDate, this.lastDate);
     }
@@ -332,5 +343,25 @@ export class BillListComponent implements OnInit {
     ClearModel() {
         this.model = new Bill();
         this.btnAddSaveName = "Add";
+    }
+
+    VerifyBills() {
+        var selectedItems = this.selection.selected.map(item => item.BillID);
+        var unselectedItems = this.dataSource.data.filter(item => {
+            if (!selectedItems.includes(item.BillID)) {
+                return item.BillID;
+            }
+        }).map(item => item.BillID);
+
+        this.billService.verifyBills(selectedItems, unselectedItems).subscribe((creationstatus) => {
+            // do necessary staff with creation status
+            console.log(creationstatus);
+            this.GetBills(this.firstDate, this.lastDate);
+            this.showVerify = false;
+            //this.showVerifyCheckboxes();
+        }, (error) => {
+            // handle the error here
+            console.log(error);
+        });
     }
 }

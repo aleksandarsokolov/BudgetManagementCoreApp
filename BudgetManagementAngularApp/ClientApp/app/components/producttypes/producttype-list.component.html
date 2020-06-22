@@ -1,0 +1,75 @@
+﻿<form #form="ngForm">
+    <mat-toolbar color="primary">
+        <mat-toolbar-row>
+            <span><i class="material-icons">storage</i>&nbsp;Product Types</span>
+            <span class="example-spacer"></span>
+
+            <!--<button mat-stroked-button [routerLink]="['/bills']">Back</button>-->
+        </mat-toolbar-row>
+    </mat-toolbar>
+
+
+    <mat-card fxFlexFill fxLayout="row wrap" style="padding:0px;">
+
+
+        <mat-drawer-container class="example-container" autosize>
+            <!--<div [enableGhostResize]="true" [resizeEdges]="{bottom: false, right: true, top: false, left: false}"> -->
+            <div>
+
+                <div class="example-sidenav-content">
+                    <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+                        <!-- This is the tree node template for leaf nodes -->
+                        <mat-tree-node class="pt-node" *matTreeNodeDef="let node" matTreeNodePadding>
+                            <!-- use a disabled button to provide padding for tree leaf -->
+                            <button mat-icon-button disabled></button>
+                            <mat-icon>{{ node.icon}}</mat-icon>
+                            <span style="margin-left:10px">{{node.name}}</span>
+                            <button class="pt-buttom" mat-icon-button color="primary" (click)="AddNewProductType(node.producttypeid);drawer.toggle();"><mat-icon>add</mat-icon></button>
+                            <button class="pt-buttom" mat-icon-button color="primary" (click)="EditProductType(node.producttypeid)">
+                                <mat-icon aria-label="Edit button">edit</mat-icon>
+                            </button>
+
+                            <button class="pt-buttom" mat-icon-button color="primary" (click)="DeleteProductType(node.producttypeid)">
+                                <mat-icon aria-label="Delete button">delete</mat-icon>
+                            </button>
+                        </mat-tree-node>
+                        <!-- This is the tree node template for expandable nodes -->
+                        <mat-tree-node class="pt-node" *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>
+                            <button mat-icon-button matTreeNodeToggle
+                                    [attr.aria-label]="'toggle ' + node.name">
+                                <mat-icon class="mat-icon-rtl-mirror">
+                                    {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+                                </mat-icon>
+                            </button>
+                            <mat-icon>{{ node.icon}}</mat-icon>
+                            <span style="margin-left:10px">{{node.name}}</span>
+                            <button class="pt-buttom" mat-icon-button color="primary" (click)="AddNewProductType(node.producttypeid);drawer.toggle();"><mat-icon>add</mat-icon></button>
+                            <button class="pt-buttom" mat-icon-button color="primary" (click)="EditProductType(node.producttypeid)">
+                                <mat-icon aria-label="Edit button">edit</mat-icon>
+                            </button>
+                        </mat-tree-node>
+                    </mat-tree>
+
+                    <!--<button type="button" mat-button (click)="drawer.toggle()">
+                Toggle sidenav
+            </button>-->
+                </div>
+
+
+            </div>
+            <mat-drawer #drawer class="example-sidenav" position="end" mode="side">
+                <p>Auto-resizing sidenav</p>
+                <p *ngIf="showFiller">Lorem, ipsum dolor sit amet consectetur.</p>
+                <button (click)="showFiller = !showFiller" mat-raised-button>
+                    Toggle extra text
+                </button>
+            </mat-drawer>
+
+        </mat-drawer-container>
+    </mat-card>
+
+</form>
+
+Model: {{ model | json }}
+<br>
+Angular: {{ form.value | json }}

@@ -13,6 +13,7 @@ import { FetchDataComponent } from './components/fetchdata/fetchdata.component';
 import { CounterComponent } from './components/counter/counter.component';
 import { BillModule } from './components/bills/bill.module';
 import { ProductModule } from './components/products/product.module';
+import { ProductTypeModule } from './components/producttypes/producttype.module';
 
 @NgModule({
     declarations: [
@@ -34,7 +35,8 @@ import { ProductModule } from './components/products/product.module';
             { path: 'fetch-data', component: FetchDataComponent }
         ]),
         ProductModule,
-        BillModule
+        BillModule,
+        ProductTypeModule
     ]
 })
 export class AppModuleShared {

@@ -130,11 +130,6 @@ export class ProductListComponent implements OnInit {
     }
 
 
-    showPlannedCheckboxes() {
-        this.showPlanned = !this.showPlanned;
-    }
-
-
     GetColor(verified: boolean): string {
         if (verified == true) return 'green'
         else return 'red';

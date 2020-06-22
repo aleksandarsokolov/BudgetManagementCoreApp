@@ -45,6 +45,12 @@
 
   <ItemGroup>
     <None Remove="%2a%2a/%2a" />
+    <None Remove="ClientApp\app\components\data\shareddata.service.spec.ts" />
+    <None Remove="ClientApp\app\components\data\shareddata.service.ts" />
+    <None Remove="ClientApp\app\components\producttypes\producttype-list.component.css" />
+    <None Remove="ClientApp\app\components\producttypes\producttype-list.component.html" />
+    <None Remove="ClientApp\app\components\producttypes\producttype-list.component.spec.ts" />
+    <None Remove="ClientApp\app\components\producttypes\producttype-list.component.ts" />
     <None Remove="ClientApp\app\components\shared\dialogs.ts" />
   </ItemGroup>
 
@@ -52,121 +58,11 @@
     <Content Include="ClientApp\app\components\api\products\bills.json" />
     <Content Include="ClientApp\app\components\api\products\product-type.json" />
     <Content Include="ClientApp\app\components\api\products\products.json" />
-    <Content Include="wwwroot\dist\node_modules\%40angular\cdk\a11y-prebuilt.css" />
-    <Content Include="wwwroot\dist\node_modules\%40angular\cdk\overlay-prebuilt.css" />
-    <Content Include="wwwroot\dist\node_modules\%40angular\cdk\text-field-prebuilt.css" />
-    <Content Include="wwwroot\dist\node_modules\%40angular\material\prebuilt-themes\deeppurple-amber.css" />
-    <Content Include="wwwroot\dist\node_modules\%40angular\material\prebuilt-themes\indigo-pink.css" />
-    <Content Include="wwwroot\dist\node_modules\%40angular\material\prebuilt-themes\pink-bluegrey.css" />
-    <Content Include="wwwroot\dist\node_modules\%40angular\material\prebuilt-themes\purple-green.css" />
-    <Content Include="wwwroot\dist\node_modules\%40fortawesome\fontawesome-free\css\all.css" />
-    <Content Include="wwwroot\dist\node_modules\%40fortawesome\fontawesome-free\css\all.min.css" />
-    <Content Include="wwwroot\dist\node_modules\%40fortawesome\fontawesome-free\css\brands.css" />
-    <Content Include="wwwroot\dist\node_modules\%40fortawesome\fontawesome-free\css\brands.min.css" />
-    <Content Include="wwwroot\dist\node_modules\%40fortawesome\fontawesome-free\css\fontawesome.css" />
-    <Content Include="wwwroot\dist\node_modules\%40fortawesome\fontawesome-free\css\fontawesome.min.css" />
-    <Content Include="wwwroot\dist\node_modules\%40fortawesome\fontawesome-free\css\regular.css" />
-    <Content Include="wwwroot\dist\node_modules\%40fortawesome\fontawesome-free\css\regular.min.css" />
-    <Content Include="wwwroot\dist\node_modules\%40fortawesome\fontawesome-free\css\solid.css" />
-    <Content Include="wwwroot\dist\node_modules\%40fortawesome\fontawesome-free\css\solid.min.css" />
-    <Content Include="wwwroot\dist\node_modules\%40fortawesome\fontawesome-free\css\svg-with-js.css" />
-    <Content Include="wwwroot\dist\node_modules\%40fortawesome\fontawesome-free\css\svg-with-js.min.css" />
-    <Content Include="wwwroot\dist\node_modules\%40fortawesome\fontawesome-free\css\v4-shims.css" />
-    <Content Include="wwwroot\dist\node_modules\%40fortawesome\fontawesome-free\css\v4-shims.min.css" />
-    <Content Include="wwwroot\dist\node_modules\%40material\theme\dist\mdc.theme.css" />
-    <Content Include="wwwroot\dist\node_modules\%40material\theme\dist\mdc.theme.min.css" />
-    <Content Include="wwwroot\dist\node_modules\ajv\node_modules\uri-js\tests\qunit.css" />
-    <Content Include="wwwroot\dist\node_modules\bootstrap\dist\css\bootstrap-theme.css" />
-    <Content Include="wwwroot\dist\node_modules\bootstrap\dist\css\bootstrap-theme.min.css" />
-    <Content Include="wwwroot\dist\node_modules\bootstrap\dist\css\bootstrap.css" />
-    <Content Include="wwwroot\dist\node_modules\bootstrap\dist\css\bootstrap.min.css" />
-    <Content Include="wwwroot\dist\node_modules\event-source-polyfill\tests\nodechat.css" />
-    <Content Include="wwwroot\dist\node_modules\event-source-polyfill\tests\qunit.css" />
-    <Content Include="wwwroot\dist\node_modules\font-awesome\css\font-awesome.css" />
-    <Content Include="wwwroot\dist\node_modules\font-awesome\css\font-awesome.min.css" />
-    <Content Include="wwwroot\dist\node_modules\globule\test\fixtures\expand\css\baz.css" />
-    <Content Include="wwwroot\dist\node_modules\globule\test\fixtures\expand\css\qux.css" />
-    <Content Include="wwwroot\dist\node_modules\gulp-cssmin\sample\test\type2.css" />
-    <Content Include="wwwroot\dist\node_modules\gulp-cssmin\sample\type.css" />
-    <Content Include="wwwroot\dist\node_modules\gulp-cssmin\sample\type.min.css" />
-    <Content Include="wwwroot\dist\node_modules\hammerjs\tests\manual\assets\style.css" />
-    <Content Include="wwwroot\dist\node_modules\hammerjs\tests\unit\assets\qunit.css" />
-    <Content Include="wwwroot\dist\node_modules\har-validator\node_modules\uri-js\tests\qunit.css" />
-    <Content Include="wwwroot\dist\node_modules\jasmine-core\lib\jasmine-core\jasmine.css" />
-    <Content Include="wwwroot\dist\node_modules\material-design-icons\iconfont\material-icons.css" />
-    <Content Include="wwwroot\dist\node_modules\material-design-icons\sprites\css-sprite\sprite-action-black.css" />
-    <Content Include="wwwroot\dist\node_modules\material-design-icons\sprites\css-sprite\sprite-action-grey600.css" />
-    <Content Include="wwwroot\dist\node_modules\material-design-icons\sprites\css-sprite\sprite-action-white.css" />
-    <Content Include="wwwroot\dist\node_modules\material-design-icons\sprites\css-sprite\sprite-alert-black.css" />
-    <Content Include="wwwroot\dist\node_modules\material-design-icons\sprites\css-sprite\sprite-alert-grey600.css" />
-    <Content Include="wwwroot\dist\node_modules\material-design-icons\sprites\css-sprite\sprite-alert-white.css" />
-    <Content Include="wwwroot\dist\node_modules\material-design-icons\sprites\css-sprite\sprite-av-black.css" />
-    <Content Include="wwwroot\dist\node_modules\material-design-icons\sprites\css-sprite\sprite-av-grey600.css" />
-    <Content Include="wwwroot\dist\node_modules\material-design-icons\sprites\css-sprite\sprite-av-white.css" />
-    <Content Include="wwwroot\dist\node_modules\material-design-icons\sprites\css-sprite\sprite-communication-black.css" />
-    <Content Include="wwwroot\dist\node_modules\material-design-icons\sprites\css-sprite\sprite-communication-grey600.css" />
-    <Content Include="wwwroot\dist\node_modules\material-design-icons\sprites\css-sprite\sprite-communication-white.css" />
-    <Content Include="wwwroot\dist\node_modules\material-design-icons\sprites\css-sprite\sprite-content-black.css" />
-    <Content Include="wwwroot\dist\node_modules\material-design-icons\sprites\css-sprite\sprite-content-grey600.css" />
-    <Content Include="wwwroot\dist\node_modules\material-design-icons\sprites\css-sprite\sprite-content-white.css" />
-    <Content Include="wwwroot\dist\node_modules\material-design-icons\sprites\css-sprite\sprite-device-black.css" />
-    <Content Include="wwwroot\dist\node_modules\material-design-icons\sprites\css-sprite\sprite-device-grey600.css" />
-    <Content Include="wwwroot\dist\node_modules\material-design-icons\sprites\css-sprite\sprite-device-white.css" />
-    <Content Include="wwwroot\dist\node_modules\material-design-icons\sprites\css-sprite\sprite-editor-black.css" />
-    <Content Include="wwwroot\dist\node_modules\material-design-icons\sprites\css-sprite\sprite-editor-grey600.css" />
-    <Content Include="wwwroot\dist\node_modules\material-design-icons\sprites\css-sprite\sprite-editor-white.css" />
-    <Content Include="wwwroot\dist\node_modules\material-design-icons\sprites\css-sprite\sprite-file-black.css" />
-    <Content Include="wwwroot\dist\node_modules\material-design-icons\sprites\css-sprite\sprite-file-grey600.css" />
-    <Content Include="wwwroot\dist\node_modules\material-design-icons\sprites\css-sprite\sprite-file-white.css" />
-    <Content Include="wwwroot\dist\node_modules\material-design-icons\sprites\css-sprite\sprite-hardware-black.css" />
-    <Content Include="wwwroot\dist\node_modules\material-design-icons\sprites\css-sprite\sprite-hardware-grey600.css" />
-    <Content Include="wwwroot\dist\node_modules\material-design-icons\sprites\css-sprite\sprite-hardware-white.css" />
-    <Content Include="wwwroot\dist\node_modules\material-design-icons\sprites\css-sprite\sprite-image-black.css" />
-    <Content Include="wwwroot\dist\node_modules\material-design-icons\sprites\css-sprite\sprite-image-grey600.css" />
-    <Content Include="wwwroot\dist\node_modules\material-design-icons\sprites\css-sprite\sprite-image-white.css" />
-    <Content Include="wwwroot\dist\node_modules\material-design-icons\sprites\css-sprite\sprite-maps-black.css" />
-    <Content Include="wwwroot\dist\node_modules\material-design-icons\sprites\css-sprite\sprite-maps-grey600.css" />
-    <Content Include="wwwroot\dist\node_modules\material-design-icons\sprites\css-sprite\sprite-maps-white.css" />
-    <Content Include="wwwroot\dist\node_modules\material-design-icons\sprites\css-sprite\sprite-navigation-black.css" />
-    <Content Include="wwwroot\dist\node_modules\material-design-icons\sprites\css-sprite\sprite-navigation-grey600.css" />
-    <Content Include="wwwroot\dist\node_modules\material-design-icons\sprites\css-sprite\sprite-navigation-white.css" />
-    <Content Include="wwwroot\dist\node_modules\material-design-icons\sprites\css-sprite\sprite-notification-black.css" />
-    <Content Include="wwwroot\dist\node_modules\material-design-icons\sprites\css-sprite\sprite-notification-grey600.css" />
-    <Content Include="wwwroot\dist\node_modules\material-design-icons\sprites\css-sprite\sprite-notification-white.css" />
-    <Content Include="wwwroot\dist\node_modules\material-design-icons\sprites\css-sprite\sprite-places-black.css" />
-    <Content Include="wwwroot\dist\node_modules\material-design-icons\sprites\css-sprite\sprite-places-white.css" />
-    <Content Include="wwwroot\dist\node_modules\material-design-icons\sprites\css-sprite\sprite-social-black.css" />
-    <Content Include="wwwroot\dist\node_modules\material-design-icons\sprites\css-sprite\sprite-social-grey600.css" />
-    <Content Include="wwwroot\dist\node_modules\material-design-icons\sprites\css-sprite\sprite-social-white.css" />
-    <Content Include="wwwroot\dist\node_modules\material-design-icons\sprites\css-sprite\sprite-toggle-black.css" />
-    <Content Include="wwwroot\dist\node_modules\material-design-icons\sprites\css-sprite\sprite-toggle-grey600.css" />
-    <Content Include="wwwroot\dist\node_modules\material-design-icons\sprites\css-sprite\sprite-toggle-white.css" />
-    <Content Include="wwwroot\dist\node_modules\material-design-icons\sprites\svg-sprite\svg-sprite-action.css" />
-    <Content Include="wwwroot\dist\node_modules\material-design-icons\sprites\svg-sprite\svg-sprite-alert.css" />
-    <Content Include="wwwroot\dist\node_modules\material-design-icons\sprites\svg-sprite\svg-sprite-av.css" />
-    <Content Include="wwwroot\dist\node_modules\material-design-icons\sprites\svg-sprite\svg-sprite-communication.css" />
-    <Content Include="wwwroot\dist\node_modules\material-design-icons\sprites\svg-sprite\svg-sprite-content.css" />
-    <Content Include="wwwroot\dist\node_modules\material-design-icons\sprites\svg-sprite\svg-sprite-device.css" />
-    <Content Include="wwwroot\dist\node_modules\material-design-icons\sprites\svg-sprite\svg-sprite-editor.css" />
-    <Content Include="wwwroot\dist\node_modules\material-design-icons\sprites\svg-sprite\svg-sprite-file.css" />
-    <Content Include="wwwroot\dist\node_modules\material-design-icons\sprites\svg-sprite\svg-sprite-hardware.css" />
-    <Content Include="wwwroot\dist\node_modules\material-design-icons\sprites\svg-sprite\svg-sprite-image.css" />
-    <Content Include="wwwroot\dist\node_modules\material-design-icons\sprites\svg-sprite\svg-sprite-maps.css" />
-    <Content Include="wwwroot\dist\node_modules\material-design-icons\sprites\svg-sprite\svg-sprite-navigation.css" />
-    <Content Include="wwwroot\dist\node_modules\material-design-icons\sprites\svg-sprite\svg-sprite-notification.css" />
-    <Content Include="wwwroot\dist\node_modules\material-design-icons\sprites\svg-sprite\svg-sprite-places.css" />
-    <Content Include="wwwroot\dist\node_modules\material-design-icons\sprites\svg-sprite\svg-sprite-social.css" />
-    <Content Include="wwwroot\dist\node_modules\material-design-icons\sprites\svg-sprite\svg-sprite-toggle.css" />
-    <Content Include="wwwroot\dist\node_modules\postcss-discard-overridden\test\input.css" />
-    <Content Include="wwwroot\dist\node_modules\postcss-discard-overridden\test\output.css" />
-    <Content Include="wwwroot\dist\node_modules\reflect-metadata\docs\ecmarkup.css" />
-    <Content Include="wwwroot\dist\node_modules\uri-js\tests\qunit.css" />
-    <Content Include="wwwroot\dist\node_modules\webpack-hot-middleware\coverage\lcov-report\base.css" />
-    <Content Include="wwwroot\dist\node_modules\webpack-hot-middleware\coverage\lcov-report\prettify.css" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="ClientApp\app\components\bills\" />
+    <Folder Include="wwwroot\dist\node_modules\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -174,6 +70,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\app\components\data\shareddata.service.spec.ts" />
+    <TypeScriptCompile Include="ClientApp\app\components\data\shareddata.service.ts" />
+    <TypeScriptCompile Include="ClientApp\app\components\producttypes\producttype-list.component.css" />
+    <TypeScriptCompile Include="ClientApp\app\components\producttypes\producttype-list.component.html" />
+    <TypeScriptCompile Include="ClientApp\app\components\producttypes\producttype-list.component.spec.ts" />
+    <TypeScriptCompile Include="ClientApp\app\components\producttypes\producttype-list.component.ts" />
     <TypeScriptCompile Include="ClientApp\app\components\shared\dialogs.ts" />
   </ItemGroup>
 
