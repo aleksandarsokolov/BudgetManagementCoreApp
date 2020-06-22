@@ -33,7 +33,7 @@
     "aspnet-prerendering": "^3.0.1",
     "aspnet-webpack": "~3.0.0",
     "awesome-typescript-loader": "3.2.1",
-    "bootstrap": "3.3.7",
+    "bootstrap": "3.4.1",
     "chai": "4.0.2",
     "core-js": "^2.5.4",
     "css": "^2.2.4",
